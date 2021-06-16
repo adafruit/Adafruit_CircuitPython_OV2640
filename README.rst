@@ -46,6 +46,7 @@ Usage Example
 On an Adafruit Metro M4 Grand Central, capture a 160x120 image into a buffer:
 
 .. code-block:: python3
+
     import board
     from adafruit_ov2640 import OV2640, OV2640_SIZE_QQVGA
 
