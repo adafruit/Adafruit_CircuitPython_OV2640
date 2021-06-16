@@ -20,7 +20,6 @@ The audio board must be mounted between the Kaluga and the LCD, it provides the
 I2C pull-ups(!)
 """
 
-import time
 import board
 import busio
 import displayio
@@ -75,14 +74,10 @@ tg = displayio.TileGrid(
 g.append(tg)
 display.show(g)
 
-t0 = time.monotonic_ns()
 display.auto_refresh = False
 while True:
     cam.capture(bitmap)
     bitmap.dirty()
     display.refresh(minimum_frames_per_second=0)
-    t1 = time.monotonic_ns()
-    print("fps", 1e9 / (t1 - t0))
-    t0 = t1
 
 cam.deinit()
