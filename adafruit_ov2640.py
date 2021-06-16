@@ -662,7 +662,7 @@ _ov2640_settings_rgb565 = bytes([
     RESET, 0x00,
 ])
 
-class RegBits:
+class _RegBits:  # pylint: disable=missing-docstring
     def __init__(self, bank, reg, shift, mask):
         self.bank = bank
         self.reg = reg
@@ -683,7 +683,7 @@ class RegBits:
         reg_value |= (value << self.shift)
         obj._write_register(self.reg, reg_value)
  
-class RegBool(RegBits):
+class _RegBool(_RegBits):  # pylint: disable=missing-docstring
     def __init__(self, bank, reg, shift):
         super().__init__(bank, reg, shift, 1)
 
@@ -815,9 +815,7 @@ class OV2640:  # pylint: disable=too-many-instance-attributes
     @colorspace.setter
     def colorspace(self, colorspace):
         self._colorspace = colorspace
-        print('setting colorspace')
         self._write_list(_ov2640_settings_rgb565 if colorspace == OV2640_COLOR_RGB else _ov2640_settings_yuv422)
-        print('setting colorspace again')
         # written twice?
         self._write_list(_ov2640_settings_rgb565 if colorspace == OV2640_COLOR_RGB else _ov2640_settings_yuv422)
         time.sleep(.01)
@@ -841,8 +839,6 @@ class OV2640:  # pylint: disable=too-many-instance-attributes
     def size(self, size):
         width, height, ratio = _resolution_info[size]
         offset_x, offset_y, max_x, max_y = _ratio_table[ratio]
-        print(f"set size={size} {width}x{height} ratio={ratio}")
-        print(f"pre", offset_x, offset_y, max_x, max_y)
         mode = OV2640_MODE_UXGA
         if size <= OV2640_SIZE_CIF:
             mode = OV2640_MODE_CIF
@@ -860,11 +856,10 @@ class OV2640:  # pylint: disable=too-many-instance-attributes
             offset_x //= 2
             offset_y //= 2
 
-        print(f"post", offset_x, offset_y, max_x, max_y)
         self._set_window(mode, offset_x, offset_y, max_x, max_y, width, height)
         self._size = size
 
-    test_pattern = RegBool(BANK_SENSOR, COM7, 1)
+    test_pattern = _RegBool(BANK_SENSOR, COM7, 1)
 
     def _set_flip(self):
         bits = 0
@@ -918,15 +913,12 @@ class OV2640:  # pylint: disable=too-many-instance-attributes
         if self._bank != bank:
             self._write_register(BANK_SEL, bank)
         result = self._read_register(reg)
-        print(f"read_bank_register({bank}, 0x{reg:02x}) -> 0x{result:02x}")
         return result
 
     def _write_register(self, reg, value):
-        #print(f"write_register(0x{reg:02x}, 0x{value:02x})")
         if reg == BANK_SEL:
             if self._bank == value: return
             self._bank = value
-        print(f"write to 0x30 ack data: 0x{reg:02X} 0x{value:02X}")
         b = bytearray(2)
         b[0] = reg
         b[1] = value
@@ -965,23 +957,18 @@ class OV2640:  # pylint: disable=too-many-instance-attributes
             ZMHH, ((h>>6)&0x04)|((w>>8)&0x03),
         ]
 
-        print("_set_window", offset_x, offset_y, max_x, max_y, w, h)
-        print("win_regs", win_regs)
         pclk_auto = 1
         pclk_div = 7
         clk_2x = 0
         clk_div = 0
 
         if mode == OV2640_MODE_CIF:
-            print("using cif settings")
             regs = _ov2640_settings_to_cif
             #if pixformat is not jpeg:
             clk_div = 3
         elif mode == OV2640_MODE_SVGA:
-            print("using svga settings")
             regs = _ov2640_settings_to_svga
         else:
-            print("using uxga settings")
             regs = _ov2640_settings_to_uxga
             pclk_div = 12
 
@@ -1013,8 +1000,8 @@ class OV2640:  # pylint: disable=too-many-instance-attributes
         reg_value |= (value << shift)
         self._write_register(reg, reg_value)
 
-    gain_ceiling = RegBits(BANK_SENSOR, COM9, 5, 7)
+    gain_ceiling = _RegBits(BANK_SENSOR, COM9, 5, 7)
 
-    bpc = RegBool(BANK_DSP, CTRL3, 7)
-    wpc = RegBool(BANK_DSP, CTRL3, 6)
-    lenc = RegBool(BANK_DSP, CTRL1, 1)
+    bpc = _RegBool(BANK_DSP, CTRL3, 7)
+    wpc = _RegBool(BANK_DSP, CTRL3, 6)
+    lenc = _RegBool(BANK_DSP, CTRL1, 1)
