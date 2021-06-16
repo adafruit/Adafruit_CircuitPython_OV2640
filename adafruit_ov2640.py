@@ -31,10 +31,8 @@ Implementation Notes
 # * Adafruit's Register library: https:# github.com/adafruit/Adafruit_CircuitPython_Register
 """
 
+# pylint: disable=too-many-lines
 # imports
-
-__version__ = "0.0.0-auto.0"
-__repo__ = "https:# github.com/adafruit/Adafruit_CircuitPython_OV2640.git"
 
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_OV7670.git"
@@ -156,7 +154,7 @@ AEC = const(0x10)
 CLKRC = const(0x11)
 COM7 = const(0x12)
 COM8 = const(0x13)
-COM9 = const(0x14) # AGC gain ceiling
+COM9 = const(0x14)  # AGC gain ceiling
 COM10 = const(0x15)
 HSTART = const(0x17)
 HSTOP = const(0x18)
@@ -197,7 +195,7 @@ REG04_HFLIP_IMG = const(0x80)
 REG04_VFLIP_IMG = const(0x40)
 REG04_VREF_EN = const(0x10)
 REG04_HREF_EN = const(0x08)
-REG04_SET = lambda x: (REG04_DEFAULT|x)
+REG04_SET = lambda x: (REG04_DEFAULT | x)
 
 COM2_STDBY = const(0x10)
 COM2_OUT_DRIVE_1x = const(0x00)
@@ -209,42 +207,42 @@ COM3_DEFAULT = const(0x38)
 COM3_BAND_50Hz = const(0x04)
 COM3_BAND_60Hz = const(0x00)
 COM3_BAND_AUTO = const(0x02)
-COM3_BAND_SET = lambda x:    (COM3_DEFAULT|x)
+COM3_BAND_SET = lambda x: (COM3_DEFAULT | x)
 
 COM7_SRST = const(0x80)
-COM7_RES_UXGA = const(0x00) # UXGA
-COM7_RES_SVGA = const(0x40) # SVGA
-COM7_RES_CIF = const(0x20) # CIF 
-COM7_ZOOM_EN = const(0x04) # Enable Zoom
-COM7_COLOR_BAR = const(0x02) # Enable Color Bar Test
+COM7_RES_UXGA = const(0x00)  # UXGA
+COM7_RES_SVGA = const(0x40)  # SVGA
+COM7_RES_CIF = const(0x20)  # CIF
+COM7_ZOOM_EN = const(0x04)  # Enable Zoom
+COM7_COLOR_BAR = const(0x02)  # Enable Color Bar Test
 
 COM8_DEFAULT = const(0xC0)
-COM8_BNDF_EN = const(0x20) # Enable Banding filter
-COM8_AGC_EN = const(0x04) # AGC Auto/Manual control selection
-COM8_AEC_EN = const(0x01) # Auto/Manual Exposure control
-COM8_SET = lambda x:         (COM8_DEFAULT|x)
+COM8_BNDF_EN = const(0x20)  # Enable Banding filter
+COM8_AGC_EN = const(0x04)  # AGC Auto/Manual control selection
+COM8_AEC_EN = const(0x01)  # Auto/Manual Exposure control
+COM8_SET = lambda x: (COM8_DEFAULT | x)
 
 COM9_DEFAULT = const(0x08)
-COM9_AGC_GAIN_2x = const(0x00) # AGC:    2x
-COM9_AGC_GAIN_4x = const(0x01) # AGC:    4x
-COM9_AGC_GAIN_8x = const(0x02) # AGC:    8x
-COM9_AGC_GAIN_16x = const(0x03) # AGC:   16x
-COM9_AGC_GAIN_32x = const(0x04) # AGC:   32x
-COM9_AGC_GAIN_64x = const(0x05) # AGC:   64x
-COM9_AGC_GAIN_128x = const(0x06) # AGC:  128x
-COM9_AGC_SET = lambda x:     (COM9_DEFAULT|(x<<5))
+COM9_AGC_GAIN_2x = const(0x00)  # AGC:    2x
+COM9_AGC_GAIN_4x = const(0x01)  # AGC:    4x
+COM9_AGC_GAIN_8x = const(0x02)  # AGC:    8x
+COM9_AGC_GAIN_16x = const(0x03)  # AGC:   16x
+COM9_AGC_GAIN_32x = const(0x04)  # AGC:   32x
+COM9_AGC_GAIN_64x = const(0x05)  # AGC:   64x
+COM9_AGC_GAIN_128x = const(0x06)  # AGC:  128x
+COM9_AGC_SET = lambda x: (COM9_DEFAULT | (x << 5))
 
-COM10_HREF_EN = const(0x80) # HSYNC changes to HREF
-COM10_HSYNC_EN = const(0x40) # HREF changes to HSYNC
-COM10_PCLK_FREE = const(0x20) # PCLK output option: free running PCLK
-COM10_PCLK_EDGE = const(0x10) # Data is updated at the rising edge of PCLK
-COM10_HREF_NEG = const(0x08) # HREF negative
-COM10_VSYNC_NEG = const(0x02) # VSYNC negative
-COM10_HSYNC_NEG = const(0x01) # HSYNC negative
+COM10_HREF_EN = const(0x80)  # HSYNC changes to HREF
+COM10_HSYNC_EN = const(0x40)  # HREF changes to HSYNC
+COM10_PCLK_FREE = const(0x20)  # PCLK output option: free running PCLK
+COM10_PCLK_EDGE = const(0x10)  # Data is updated at the rising edge of PCLK
+COM10_HREF_NEG = const(0x08)  # HREF negative
+COM10_VSYNC_NEG = const(0x02)  # VSYNC negative
+COM10_HSYNC_NEG = const(0x01)  # HSYNC negative
 
-CTRL1_AWB = const(0x08) # Enable AWB
+CTRL1_AWB = const(0x08)  # Enable AWB
 
-VV_AGC_TH_SET = lambda h,l:  ((h<<4)|(l&0x0F))
+VV_AGC_TH_SET = lambda h, l: ((h << 4) | (l & 0x0F))
 
 REG32_UXGA = const(0x36)
 REG32_SVGA = const(0x09)
@@ -285,348 +283,612 @@ ASPECT_RATIO_1X1 = const(7)
 ASPECT_RATIO_9X16 = const(8)
 
 _resolution_info = [
-    [   96,   96, ASPECT_RATIO_1X1   ], # 96x96
-    [  160,  120, ASPECT_RATIO_4X3   ], # QQVGA
-    [  176,  144, ASPECT_RATIO_5X4   ], # QCIF 
-    [  240,  176, ASPECT_RATIO_4X3   ], # HQVGA
-    [  240,  240, ASPECT_RATIO_1X1   ], # 240x240
-    [  320,  240, ASPECT_RATIO_4X3   ], # QVGA 
-    [  400,  296, ASPECT_RATIO_4X3   ], # CIF  
-    [  480,  320, ASPECT_RATIO_3X2   ], # HVGA 
-    [  640,  480, ASPECT_RATIO_4X3   ], # VGA  
-    [  800,  600, ASPECT_RATIO_4X3   ], # SVGA 
-    [ 1024,  768, ASPECT_RATIO_4X3   ], # XGA  
-    [ 1280,  720, ASPECT_RATIO_16X9  ], # HD   
-    [ 1280, 1024, ASPECT_RATIO_5X4   ], # SXGA 
-    [ 1600, 1200, ASPECT_RATIO_4X3   ], # UXGA 
+    [96, 96, ASPECT_RATIO_1X1],  # 96x96
+    [160, 120, ASPECT_RATIO_4X3],  # QQVGA
+    [176, 144, ASPECT_RATIO_5X4],  # QCIF
+    [240, 176, ASPECT_RATIO_4X3],  # HQVGA
+    [240, 240, ASPECT_RATIO_1X1],  # 240x240
+    [320, 240, ASPECT_RATIO_4X3],  # QVGA
+    [400, 296, ASPECT_RATIO_4X3],  # CIF
+    [480, 320, ASPECT_RATIO_3X2],  # HVGA
+    [640, 480, ASPECT_RATIO_4X3],  # VGA
+    [800, 600, ASPECT_RATIO_4X3],  # SVGA
+    [1024, 768, ASPECT_RATIO_4X3],  # XGA
+    [1280, 720, ASPECT_RATIO_16X9],  # HD
+    [1280, 1024, ASPECT_RATIO_5X4],  # SXGA
+    [1600, 1200, ASPECT_RATIO_4X3],  # UXGA
 ]
 
 _ratio_table = [
     # ox,  oy,   mx,   my
-    [   0,   0, 1600, 1200 ], # 4x3
-    [   8,  72, 1584, 1056 ], # 3x2
-    [   0, 100, 1600, 1000 ], # 16x10
-    [   0, 120, 1600,  960 ], # 5x3
-    [   0, 150, 1600,  900 ], # 16x9
-    [   2, 258, 1596,  684 ], # 21x9
-    [  50,   0, 1500, 1200 ], # 5x4
-    [ 200,   0, 1200, 1200 ], # 1x1
-    [ 462,   0,  676, 1200 ]  # 9x16
+    [0, 0, 1600, 1200],  # 4x3
+    [8, 72, 1584, 1056],  # 3x2
+    [0, 100, 1600, 1000],  # 16x10
+    [0, 120, 1600, 960],  # 5x3
+    [0, 150, 1600, 900],  # 16x9
+    [2, 258, 1596, 684],  # 21x9
+    [50, 0, 1500, 1200],  # 5x4
+    [200, 0, 1200, 1200],  # 1x1
+    [462, 0, 676, 1200],  # 9x16
 ]
 
 # 30fps@24MHz
-_ov2640_settings_cif = bytes([
-    BANK_SEL, BANK_DSP,
-    0x2c, 0xff,
-    0x2e, 0xdf,
-    BANK_SEL, BANK_SENSOR,
-    0x3c, 0x32,
-    CLKRC, 0x01,
-    COM2, COM2_OUT_DRIVE_3x,
-    REG04, REG04_DEFAULT,
-    COM8, COM8_DEFAULT | COM8_BNDF_EN | COM8_AGC_EN | COM8_AEC_EN,
-    COM9, COM9_AGC_SET(COM9_AGC_GAIN_8x),
-    0x2c, 0x0c,
-    0x33, 0x78,
-    0x3a, 0x33,
-    0x3b, 0xfB,
-    0x3e, 0x00,
-    0x43, 0x11,
-    0x16, 0x10,
-    0x39, 0x92,
-    0x35, 0xda,
-    0x22, 0x1a,
-    0x37, 0xc3,
-    0x23, 0x00,
-    ARCOM2, 0xc0,
-    0x06, 0x88,
-    0x07, 0xc0,
-    COM4, 0x87,
-    0x0e, 0x41,
-    0x4c, 0x00,
-    0x4a, 0x81,
-    0x21, 0x99,
-    AEW, 0x40,
-    AEB, 0x38,
-    VV, VV_AGC_TH_SET(8,2),
-    0x5c, 0x00,
-    0x63, 0x00,
-    HISTO_LOW, 0x70,
-    HISTO_HIGH, 0x80,
-    0x7c, 0x05,
-    0x20, 0x80,
-    0x28, 0x30,
-    0x6c, 0x00,
-    0x6d, 0x80,
-    0x6e, 0x00,
-    0x70, 0x02,
-    0x71, 0x94,
-    0x73, 0xc1,
-    0x3d, 0x34,
-    0x5a, 0x57,
-    BD50, 0xbb,
-    BD60, 0x9c,
-    COM7, COM7_RES_CIF,
-    HSTART, 0x11,
-    HSTOP, 0x43,
-    VSTART, 0x00,
-    VSTOP, 0x25,
-    REG32, 0x89,
-    0x37, 0xc0,
-    BD50, 0xca,
-    BD60, 0xa8,
-    0x6d, 0x00,
-    0x3d, 0x38,
-    BANK_SEL, BANK_DSP,
-    0xe5, 0x7f,
-    MC_BIST, MC_BIST_RESET | MC_BIST_BOOT_ROM_SEL,
-    0x41, 0x24,
-    RESET, RESET_JPEG | RESET_DVP,
-    0x76, 0xff,
-    0x33, 0xa0,
-    0x42, 0x20,
-    0x43, 0x18,
-    0x4c, 0x00,
-    CTRL3, CTRL3_WPC_EN | 0x10 ,
-    0x88, 0x3f,
-    0xd7, 0x03,
-    0xd9, 0x10,
-    R_DVP_SP, R_DVP_SP_AUTO_MODE | 0x02,
-    0xc8, 0x08,
-    0xc9, 0x80,
-    BPADDR, 0x00,
-    BPDATA, 0x00,
-    BPADDR, 0x03,
-    BPDATA, 0x48,
-    BPDATA, 0x48,
-    BPADDR, 0x08,
-    BPDATA, 0x20,
-    BPDATA, 0x10,
-    BPDATA, 0x0e,
-    0x90, 0x00,
-    0x91, 0x0e,
-    0x91, 0x1a,
-    0x91, 0x31,
-    0x91, 0x5a,
-    0x91, 0x69,
-    0x91, 0x75,
-    0x91, 0x7e,
-    0x91, 0x88,
-    0x91, 0x8f,
-    0x91, 0x96,
-    0x91, 0xa3,
-    0x91, 0xaf,
-    0x91, 0xc4,
-    0x91, 0xd7,
-    0x91, 0xe8,
-    0x91, 0x20,
-    0x92, 0x00,
-    0x93, 0x06,
-    0x93, 0xe3,
-    0x93, 0x05,
-    0x93, 0x05,
-    0x93, 0x00,
-    0x93, 0x04,
-    0x93, 0x00,
-    0x93, 0x00,
-    0x93, 0x00,
-    0x93, 0x00,
-    0x93, 0x00,
-    0x93, 0x00,
-    0x93, 0x00,
-    0x96, 0x00,
-    0x97, 0x08,
-    0x97, 0x19,
-    0x97, 0x02,
-    0x97, 0x0c,
-    0x97, 0x24,
-    0x97, 0x30,
-    0x97, 0x28,
-    0x97, 0x26,
-    0x97, 0x02,
-    0x97, 0x98,
-    0x97, 0x80,
-    0x97, 0x00,
-    0x97, 0x00,
-    0xa4, 0x00,
-    0xa8, 0x00,
-    0xc5, 0x11,
-    0xc6, 0x51,
-    0xbf, 0x80,
-    0xc7, 0x10,
-    0xb6, 0x66,
-    0xb8, 0xA5,
-    0xb7, 0x64,
-    0xb9, 0x7C,
-    0xb3, 0xaf,
-    0xb4, 0x97,
-    0xb5, 0xFF,
-    0xb0, 0xC5,
-    0xb1, 0x94,
-    0xb2, 0x0f,
-    0xc4, 0x5c,
-    CTRL1, 0xfd,
-    0x7f, 0x00,
-    0xe5, 0x1f,
-    0xe1, 0x67,
-    0xdd, 0x7f,
-    IMAGE_MODE, 0x00,
-    RESET, 0x00,
-    R_BYPASS, R_BYPASS_DSP_EN,
-])
+_ov2640_settings_cif = bytes(
+    [
+        BANK_SEL,
+        BANK_DSP,
+        0x2C,
+        0xFF,
+        0x2E,
+        0xDF,
+        BANK_SEL,
+        BANK_SENSOR,
+        0x3C,
+        0x32,
+        CLKRC,
+        0x01,
+        COM2,
+        COM2_OUT_DRIVE_3x,
+        REG04,
+        REG04_DEFAULT,
+        COM8,
+        COM8_DEFAULT | COM8_BNDF_EN | COM8_AGC_EN | COM8_AEC_EN,
+        COM9,
+        COM9_AGC_SET(COM9_AGC_GAIN_8x),
+        0x2C,
+        0x0C,
+        0x33,
+        0x78,
+        0x3A,
+        0x33,
+        0x3B,
+        0xFB,
+        0x3E,
+        0x00,
+        0x43,
+        0x11,
+        0x16,
+        0x10,
+        0x39,
+        0x92,
+        0x35,
+        0xDA,
+        0x22,
+        0x1A,
+        0x37,
+        0xC3,
+        0x23,
+        0x00,
+        ARCOM2,
+        0xC0,
+        0x06,
+        0x88,
+        0x07,
+        0xC0,
+        COM4,
+        0x87,
+        0x0E,
+        0x41,
+        0x4C,
+        0x00,
+        0x4A,
+        0x81,
+        0x21,
+        0x99,
+        AEW,
+        0x40,
+        AEB,
+        0x38,
+        VV,
+        VV_AGC_TH_SET(8, 2),
+        0x5C,
+        0x00,
+        0x63,
+        0x00,
+        HISTO_LOW,
+        0x70,
+        HISTO_HIGH,
+        0x80,
+        0x7C,
+        0x05,
+        0x20,
+        0x80,
+        0x28,
+        0x30,
+        0x6C,
+        0x00,
+        0x6D,
+        0x80,
+        0x6E,
+        0x00,
+        0x70,
+        0x02,
+        0x71,
+        0x94,
+        0x73,
+        0xC1,
+        0x3D,
+        0x34,
+        0x5A,
+        0x57,
+        BD50,
+        0xBB,
+        BD60,
+        0x9C,
+        COM7,
+        COM7_RES_CIF,
+        HSTART,
+        0x11,
+        HSTOP,
+        0x43,
+        VSTART,
+        0x00,
+        VSTOP,
+        0x25,
+        REG32,
+        0x89,
+        0x37,
+        0xC0,
+        BD50,
+        0xCA,
+        BD60,
+        0xA8,
+        0x6D,
+        0x00,
+        0x3D,
+        0x38,
+        BANK_SEL,
+        BANK_DSP,
+        0xE5,
+        0x7F,
+        MC_BIST,
+        MC_BIST_RESET | MC_BIST_BOOT_ROM_SEL,
+        0x41,
+        0x24,
+        RESET,
+        RESET_JPEG | RESET_DVP,
+        0x76,
+        0xFF,
+        0x33,
+        0xA0,
+        0x42,
+        0x20,
+        0x43,
+        0x18,
+        0x4C,
+        0x00,
+        CTRL3,
+        CTRL3_WPC_EN | 0x10,
+        0x88,
+        0x3F,
+        0xD7,
+        0x03,
+        0xD9,
+        0x10,
+        R_DVP_SP,
+        R_DVP_SP_AUTO_MODE | 0x02,
+        0xC8,
+        0x08,
+        0xC9,
+        0x80,
+        BPADDR,
+        0x00,
+        BPDATA,
+        0x00,
+        BPADDR,
+        0x03,
+        BPDATA,
+        0x48,
+        BPDATA,
+        0x48,
+        BPADDR,
+        0x08,
+        BPDATA,
+        0x20,
+        BPDATA,
+        0x10,
+        BPDATA,
+        0x0E,
+        0x90,
+        0x00,
+        0x91,
+        0x0E,
+        0x91,
+        0x1A,
+        0x91,
+        0x31,
+        0x91,
+        0x5A,
+        0x91,
+        0x69,
+        0x91,
+        0x75,
+        0x91,
+        0x7E,
+        0x91,
+        0x88,
+        0x91,
+        0x8F,
+        0x91,
+        0x96,
+        0x91,
+        0xA3,
+        0x91,
+        0xAF,
+        0x91,
+        0xC4,
+        0x91,
+        0xD7,
+        0x91,
+        0xE8,
+        0x91,
+        0x20,
+        0x92,
+        0x00,
+        0x93,
+        0x06,
+        0x93,
+        0xE3,
+        0x93,
+        0x05,
+        0x93,
+        0x05,
+        0x93,
+        0x00,
+        0x93,
+        0x04,
+        0x93,
+        0x00,
+        0x93,
+        0x00,
+        0x93,
+        0x00,
+        0x93,
+        0x00,
+        0x93,
+        0x00,
+        0x93,
+        0x00,
+        0x93,
+        0x00,
+        0x96,
+        0x00,
+        0x97,
+        0x08,
+        0x97,
+        0x19,
+        0x97,
+        0x02,
+        0x97,
+        0x0C,
+        0x97,
+        0x24,
+        0x97,
+        0x30,
+        0x97,
+        0x28,
+        0x97,
+        0x26,
+        0x97,
+        0x02,
+        0x97,
+        0x98,
+        0x97,
+        0x80,
+        0x97,
+        0x00,
+        0x97,
+        0x00,
+        0xA4,
+        0x00,
+        0xA8,
+        0x00,
+        0xC5,
+        0x11,
+        0xC6,
+        0x51,
+        0xBF,
+        0x80,
+        0xC7,
+        0x10,
+        0xB6,
+        0x66,
+        0xB8,
+        0xA5,
+        0xB7,
+        0x64,
+        0xB9,
+        0x7C,
+        0xB3,
+        0xAF,
+        0xB4,
+        0x97,
+        0xB5,
+        0xFF,
+        0xB0,
+        0xC5,
+        0xB1,
+        0x94,
+        0xB2,
+        0x0F,
+        0xC4,
+        0x5C,
+        CTRL1,
+        0xFD,
+        0x7F,
+        0x00,
+        0xE5,
+        0x1F,
+        0xE1,
+        0x67,
+        0xDD,
+        0x7F,
+        IMAGE_MODE,
+        0x00,
+        RESET,
+        0x00,
+        R_BYPASS,
+        R_BYPASS_DSP_EN,
+    ]
+)
 
-_ov2640_settings_to_cif = bytes([
-    BANK_SEL, BANK_SENSOR,
-    COM7, COM7_RES_CIF,
+_ov2640_settings_to_cif = bytes(
+    [
+        BANK_SEL,
+        BANK_SENSOR,
+        COM7,
+        COM7_RES_CIF,
+        # Set the sensor output window
+        COM1,
+        0x0A,
+        REG32,
+        REG32_CIF,
+        HSTART,
+        0x11,
+        HSTOP,
+        0x43,
+        VSTART,
+        0x00,
+        VSTOP,
+        0x25,
+        # CLKRC, 0x00,
+        BD50,
+        0xCA,
+        BD60,
+        0xA8,
+        0x5A,
+        0x23,
+        0x6D,
+        0x00,
+        0x3D,
+        0x38,
+        0x39,
+        0x92,
+        0x35,
+        0xDA,
+        0x22,
+        0x1A,
+        0x37,
+        0xC3,
+        0x23,
+        0x00,
+        ARCOM2,
+        0xC0,
+        0x06,
+        0x88,
+        0x07,
+        0xC0,
+        COM4,
+        0x87,
+        0x0E,
+        0x41,
+        0x4C,
+        0x00,
+        BANK_SEL,
+        BANK_DSP,
+        RESET,
+        RESET_DVP,
+        # Set the sensor resolution (UXGA, SVGA, CIF)
+        HSIZE8,
+        0x32,
+        VSIZE8,
+        0x25,
+        SIZEL,
+        0x00,
+        # Set the image window size >= output size
+        HSIZE,
+        0x64,
+        VSIZE,
+        0x4A,
+        XOFFL,
+        0x00,
+        YOFFL,
+        0x00,
+        VHYX,
+        0x00,
+        TEST,
+        0x00,
+        CTRL2,
+        CTRL2_DCW_EN | 0x1D,
+        CTRLI,
+        CTRLI_LP_DP | 0x00,
+        # R_DVP_SP, 0x08,
+    ]
+)
 
-    # Set the sensor output window
-    COM1, 0x0A,
-    REG32, REG32_CIF,
-    HSTART, 0x11,
-    HSTOP, 0x43,
-    VSTART, 0x00,
-    VSTOP, 0x25,
+_ov2640_settings_to_svga = bytes(
+    [
+        BANK_SEL,
+        BANK_SENSOR,
+        COM7,
+        COM7_RES_SVGA,
+        # Set the sensor output window
+        COM1,
+        0x0A,
+        REG32,
+        REG32_SVGA,
+        HSTART,
+        0x11,
+        HSTOP,
+        0x43,
+        VSTART,
+        0x00,
+        VSTOP,
+        0x4B,
+        # CLKRC, 0x00,
+        0x37,
+        0xC0,
+        BD50,
+        0xCA,
+        BD60,
+        0xA8,
+        0x5A,
+        0x23,
+        0x6D,
+        0x00,
+        0x3D,
+        0x38,
+        0x39,
+        0x92,
+        0x35,
+        0xDA,
+        0x22,
+        0x1A,
+        0x37,
+        0xC3,
+        0x23,
+        0x00,
+        ARCOM2,
+        0xC0,
+        0x06,
+        0x88,
+        0x07,
+        0xC0,
+        COM4,
+        0x87,
+        0x0E,
+        0x41,
+        0x42,
+        0x03,
+        0x4C,
+        0x00,
+        BANK_SEL,
+        BANK_DSP,
+        RESET,
+        RESET_DVP,
+        # Set the sensor resolution (UXGA, SVGA, CIF)
+        HSIZE8,
+        0x64,
+        VSIZE8,
+        0x4B,
+        SIZEL,
+        0x00,
+        # Set the image window size >= output size
+        HSIZE,
+        0xC8,
+        VSIZE,
+        0x96,
+        XOFFL,
+        0x00,
+        YOFFL,
+        0x00,
+        VHYX,
+        0x00,
+        TEST,
+        0x00,
+        CTRL2,
+        CTRL2_DCW_EN | 0x1D,
+        CTRLI,
+        CTRLI_LP_DP | 0x00,
+        # R_DVP_SP, 0x08,
+    ]
+)
 
-    # CLKRC, 0x00,
-    BD50, 0xca,
-    BD60, 0xa8,
-    0x5a, 0x23,
-    0x6d, 0x00,
-    0x3d, 0x38,
-    0x39, 0x92,
-    0x35, 0xda,
-    0x22, 0x1a,
-    0x37, 0xc3,
-    0x23, 0x00,
-    ARCOM2, 0xc0,
-    0x06, 0x88,
-    0x07, 0xc0,
-    COM4, 0x87,
-    0x0e, 0x41,
-    0x4c, 0x00,
-    BANK_SEL, BANK_DSP,
-    RESET, RESET_DVP,
-
-    # Set the sensor resolution (UXGA, SVGA, CIF)
-    HSIZE8, 0x32,
-    VSIZE8, 0x25,
-    SIZEL, 0x00,
-
-    # Set the image window size >= output size
-    HSIZE, 0x64,
-    VSIZE, 0x4a,
-    XOFFL, 0x00,
-    YOFFL, 0x00,
-    VHYX, 0x00,
-    TEST, 0x00,
-
-    CTRL2, CTRL2_DCW_EN | 0x1D,
-    CTRLI, CTRLI_LP_DP | 0x00,
-    # R_DVP_SP, 0x08,
-])
-
-_ov2640_settings_to_svga = bytes([
-    BANK_SEL, BANK_SENSOR,
-    COM7, COM7_RES_SVGA,
-
-    # Set the sensor output window
-    COM1, 0x0A,
-    REG32, REG32_SVGA,
-    HSTART, 0x11,
-    HSTOP, 0x43,
-    VSTART, 0x00,
-    VSTOP, 0x4b,
-
-    # CLKRC, 0x00,
-    0x37, 0xc0,
-    BD50, 0xca,
-    BD60, 0xa8,
-    0x5a, 0x23,
-    0x6d, 0x00,
-    0x3d, 0x38,
-    0x39, 0x92,
-    0x35, 0xda,
-    0x22, 0x1a,
-    0x37, 0xc3,
-    0x23, 0x00,
-    ARCOM2, 0xc0,
-    0x06, 0x88,
-    0x07, 0xc0,
-    COM4, 0x87,
-    0x0e, 0x41,
-    0x42, 0x03,
-    0x4c, 0x00,
-    BANK_SEL, BANK_DSP,
-    RESET, RESET_DVP,
-
-    # Set the sensor resolution (UXGA, SVGA, CIF)
-    HSIZE8, 0x64,
-    VSIZE8, 0x4B,
-    SIZEL, 0x00,
-
-    # Set the image window size >= output size
-    HSIZE, 0xC8,
-    VSIZE, 0x96,
-    XOFFL, 0x00,
-    YOFFL, 0x00,
-    VHYX, 0x00,
-    TEST, 0x00,
-
-    CTRL2, CTRL2_DCW_EN | 0x1D,
-    CTRLI, CTRLI_LP_DP | 0x00,
-    # R_DVP_SP, 0x08,
-])
-
-_ov2640_settings_to_uxga = bytes([
-    BANK_SEL, BANK_SENSOR,
-    COM7, COM7_RES_UXGA,
-
-    # Set the sensor output window
-    COM1, 0x0F,
-    REG32, REG32_UXGA,
-    HSTART, 0x11,
-    HSTOP, 0x75,
-    VSTART, 0x01,
-    VSTOP, 0x97,
-
-    # CLKRC, 0x00,
-    0x3d, 0x34,
-    BD50, 0xbb,
-    BD60, 0x9c,
-    0x5a, 0x57,
-    0x6d, 0x80,
-    0x39, 0x82,
-    0x23, 0x00,
-    0x07, 0xc0,
-    0x4c, 0x00,
-    0x35, 0x88,
-    0x22, 0x0a,
-    0x37, 0x40,
-    ARCOM2, 0xa0,
-    0x06, 0x02,
-    COM4, 0xb7,
-    0x0e, 0x01,
-    0x42, 0x83,
-    BANK_SEL, BANK_DSP,
-    RESET, RESET_DVP,
-
-    # Set the sensor resolution (UXGA, SVGA, CIF)
-    HSIZE8, 0xc8,
-    VSIZE8, 0x96,
-    SIZEL, 0x00,
-
-    # Set the image window size >= output size
-    HSIZE, 0x90,
-    VSIZE, 0x2c,
-    XOFFL, 0x00,
-    YOFFL, 0x00,
-    VHYX, 0x88,
-    TEST, 0x00,
-
-    CTRL2, CTRL2_DCW_EN | 0x1d,
-    CTRLI, 0x00,
-    # R_DVP_SP, 0x06,
-])
+_ov2640_settings_to_uxga = bytes(
+    [
+        BANK_SEL,
+        BANK_SENSOR,
+        COM7,
+        COM7_RES_UXGA,
+        # Set the sensor output window
+        COM1,
+        0x0F,
+        REG32,
+        REG32_UXGA,
+        HSTART,
+        0x11,
+        HSTOP,
+        0x75,
+        VSTART,
+        0x01,
+        VSTOP,
+        0x97,
+        # CLKRC, 0x00,
+        0x3D,
+        0x34,
+        BD50,
+        0xBB,
+        BD60,
+        0x9C,
+        0x5A,
+        0x57,
+        0x6D,
+        0x80,
+        0x39,
+        0x82,
+        0x23,
+        0x00,
+        0x07,
+        0xC0,
+        0x4C,
+        0x00,
+        0x35,
+        0x88,
+        0x22,
+        0x0A,
+        0x37,
+        0x40,
+        ARCOM2,
+        0xA0,
+        0x06,
+        0x02,
+        COM4,
+        0xB7,
+        0x0E,
+        0x01,
+        0x42,
+        0x83,
+        BANK_SEL,
+        BANK_DSP,
+        RESET,
+        RESET_DVP,
+        # Set the sensor resolution (UXGA, SVGA, CIF)
+        HSIZE8,
+        0xC8,
+        VSIZE8,
+        0x96,
+        SIZEL,
+        0x00,
+        # Set the image window size >= output size
+        HSIZE,
+        0x90,
+        VSIZE,
+        0x2C,
+        XOFFL,
+        0x00,
+        YOFFL,
+        0x00,
+        VHYX,
+        0x88,
+        TEST,
+        0x00,
+        CTRL2,
+        CTRL2_DCW_EN | 0x1D,
+        CTRLI,
+        0x00,
+        # R_DVP_SP, 0x06,
+    ]
+)
 
 # _ov2640_settings_jpeg3 = bytes([
 #     BANK_SEL, BANK_DSP,
@@ -644,54 +906,73 @@ _ov2640_settings_to_uxga = bytes([
 #     RESET, 0x00,
 # ])
 
-_ov2640_settings_yuv422 = bytes([
-    BANK_SEL, BANK_DSP,
-    RESET, RESET_DVP,
-    IMAGE_MODE, IMAGE_MODE_YUV422,
-    0xD7, 0x01,
-    0xE1, 0x67,
-    RESET, 0x00,
-])
+_ov2640_settings_yuv422 = bytes(
+    [
+        BANK_SEL,
+        BANK_DSP,
+        RESET,
+        RESET_DVP,
+        IMAGE_MODE,
+        IMAGE_MODE_YUV422,
+        0xD7,
+        0x01,
+        0xE1,
+        0x67,
+        RESET,
+        0x00,
+    ]
+)
 
-_ov2640_settings_rgb565 = bytes([
-    BANK_SEL, BANK_DSP,
-    RESET, RESET_DVP,
-    IMAGE_MODE, IMAGE_MODE_RGB565,
-    0xD7, 0x03,
-    0xE1, 0x77,
-    RESET, 0x00,
-])
+_ov2640_settings_rgb565 = bytes(
+    [
+        BANK_SEL,
+        BANK_DSP,
+        RESET,
+        RESET_DVP,
+        IMAGE_MODE,
+        IMAGE_MODE_RGB565,
+        0xD7,
+        0x03,
+        0xE1,
+        0x77,
+        RESET,
+        0x00,
+    ]
+)
 
-class _RegBits:  # pylint: disable=missing-docstring
+
+class _RegBits:
     def __init__(self, bank, reg, shift, mask):
         self.bank = bank
         self.reg = reg
         self.shift = shift
         self.mask = mask
 
-    def __get__(self, obj):
+    def __get__(self, obj, objtype=None):
         reg_value = obj._read_bank_register(self.bank, self.reg)
-        return (obj >> shift) & mask
+        return (reg_value >> self.shift) & self.mask
 
     def __set__(self, obj, value):
         if value & ~self.mask:
             raise ValueError(
-                f"Value 0x{value:02x} does not fit in mask 0x{self._mask:02x}"
+                f"Value 0x{value:02x} does not fit in mask 0x{self.mask:02x}"
             )
         reg_value = obj._read_bank_register(self.bank, self.reg)
         reg_value &= ~(self.mask << self.shift)
-        reg_value |= (value << self.shift)
+        reg_value |= value << self.shift
         obj._write_register(self.reg, reg_value)
- 
-class _RegBool(_RegBits):  # pylint: disable=missing-docstring
+
+
+class _RegBool(_RegBits):
     def __init__(self, bank, reg, shift):
         super().__init__(bank, reg, shift, 1)
 
-    def __get__(self, obj):
+    def __get__(self, obj, objtype=None):
         return bool(super().__get__(obj))
 
     def __set__(self, obj, value):
         super().__set__(obj, bool(value))
+
 
 class OV2640:  # pylint: disable=too-many-instance-attributes
     """Library for the OV2640 digital camera"""
@@ -765,7 +1046,6 @@ class OV2640:  # pylint: disable=too-many-instance-attributes
         self._size = None
         self._test_pattern = False
         self.size = OV2640_SIZE_QQVGA
-        self.size = OV2640_SIZE_QQVGA
 
         self._flip_x = False
         self._flip_y = False
@@ -775,7 +1055,7 @@ class OV2640:  # pylint: disable=too-many-instance-attributes
         self.wpc = True
         self.lenc = True
 
-        #self._sensor_init()
+        # self._sensor_init()
 
         self._imagecapture = imagecapture.ParallelImageCapture(
             data_pins=data_pins, clock=clock, vsync=vsync, href=href
@@ -815,10 +1095,18 @@ class OV2640:  # pylint: disable=too-many-instance-attributes
     @colorspace.setter
     def colorspace(self, colorspace):
         self._colorspace = colorspace
-        self._write_list(_ov2640_settings_rgb565 if colorspace == OV2640_COLOR_RGB else _ov2640_settings_yuv422)
+        self._write_list(
+            _ov2640_settings_rgb565
+            if colorspace == OV2640_COLOR_RGB
+            else _ov2640_settings_yuv422
+        )
         # written twice?
-        self._write_list(_ov2640_settings_rgb565 if colorspace == OV2640_COLOR_RGB else _ov2640_settings_yuv422)
-        time.sleep(.01)
+        self._write_list(
+            _ov2640_settings_rgb565
+            if colorspace == OV2640_COLOR_RGB
+            else _ov2640_settings_yuv422
+        )
+        time.sleep(0.01)
 
     def deinit(self):
         """Deinitialize the camera"""
@@ -842,10 +1130,10 @@ class OV2640:  # pylint: disable=too-many-instance-attributes
         mode = OV2640_MODE_UXGA
         if size <= OV2640_SIZE_CIF:
             mode = OV2640_MODE_CIF
-            max_x //= 4            
-            max_y //= 4            
-            offset_x //= 4            
-            offset_y //= 4            
+            max_x //= 4
+            max_y //= 4
+            offset_x //= 4
+            offset_y //= 4
             if max_y > 296:
                 max_y = 296
 
@@ -917,7 +1205,8 @@ class OV2640:  # pylint: disable=too-many-instance-attributes
 
     def _write_register(self, reg, value):
         if reg == BANK_SEL:
-            if self._bank == value: return
+            if self._bank == value:
+                return
             self._bank = value
         b = bytearray(2)
         b[0] = reg
@@ -934,27 +1223,40 @@ class OV2640:  # pylint: disable=too-many-instance-attributes
         return b[0]
 
     def _set_window(
-        self, mode, offset_x, offset_y, max_x, max_y, w, h
-    ):  # pylint: disable=too-many-arguments
-        self._w = w
-        self._h = h
+        self, mode, offset_x, offset_y, max_x, max_y, width, height
+    ):  # pylint: disable=too-many-arguments, too-many-locals
+        self._w = width
+        self._h = height
 
         max_x //= 4
         max_y //= 4
-        w //= 4
-        h //= 4
+        width //= 4
+        height //= 4
 
         win_regs = [
-            BANK_SEL, BANK_DSP,
-            HSIZE, max_x & 0xFF,
-            VSIZE, max_y & 0xFF,
-            XOFFL, offset_x & 0xFF,
-            YOFFL, offset_y & 0xFF,
-            VHYX, ((max_y >> 1) & 0X80) | ((offset_y >> 4) & 0X70) | ((max_x >> 5) & 0X08) | ((offset_y >> 8) & 0X07),
-            TEST, (max_x >> 2) & 0X80,
-            ZMOW, (w)&0xFF,
-            ZMOH, (h)&0xFF,
-            ZMHH, ((h>>6)&0x04)|((w>>8)&0x03),
+            BANK_SEL,
+            BANK_DSP,
+            HSIZE,
+            max_x & 0xFF,
+            VSIZE,
+            max_y & 0xFF,
+            XOFFL,
+            offset_x & 0xFF,
+            YOFFL,
+            offset_y & 0xFF,
+            VHYX,
+            ((max_y >> 1) & 0x80)
+            | ((offset_y >> 4) & 0x70)
+            | ((max_x >> 5) & 0x08)
+            | ((offset_y >> 8) & 0x07),
+            TEST,
+            (max_x >> 2) & 0x80,
+            ZMOW,
+            (width) & 0xFF,
+            ZMOH,
+            (height) & 0xFF,
+            ZMHH,
+            ((height >> 6) & 0x04) | ((width >> 8) & 0x03),
         ]
 
         pclk_auto = 1
@@ -964,7 +1266,7 @@ class OV2640:  # pylint: disable=too-many-instance-attributes
 
         if mode == OV2640_MODE_CIF:
             regs = _ov2640_settings_to_cif
-            #if pixformat is not jpeg:
+            # if pixformat is not jpeg:
             clk_div = 3
         elif mode == OV2640_MODE_SVGA:
             regs = _ov2640_settings_to_svga
@@ -981,7 +1283,7 @@ class OV2640:  # pylint: disable=too-many-instance-attributes
         self._write_bank_register(BANK_SENSOR, CLKRC, clk)
         self._write_bank_register(BANK_DSP, R_DVP_SP, pclk)
         self._write_register(R_BYPASS, R_BYPASS_DSP_EN)
-        time.sleep(.01)
+        time.sleep(0.01)
 
         # Reestablish colorspace
         self.colorspace = self._colorspace
@@ -990,14 +1292,15 @@ class OV2640:  # pylint: disable=too-many-instance-attributes
         if self._test_pattern:
             self.test_pattern = self._test_pattern
 
-
     def _get_reg_bits(self, bank, reg, shift, mask):
         return (self._read_bank_register(bank, reg) >> shift) & mask
-    
-    def _set_reg_bits(self, bank, reg, shift, mask, value):
+
+    def _set_reg_bits(
+        self, bank, reg, shift, mask, value
+    ):  #  pylint: disable=too-many-arguments
         reg_value = self._read_bank_register(bank, reg)
-        reg_value &= ~ (mask << shift)
-        reg_value |= (value << shift)
+        reg_value &= ~(mask << shift)
+        reg_value |= value << shift
         self._write_register(reg, reg_value)
 
     gain_ceiling = _RegBits(BANK_SENSOR, COM9, 5, 7)
