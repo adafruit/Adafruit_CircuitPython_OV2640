@@ -17,15 +17,12 @@ from displayio import (
     ColorConverter,
     Colorspace,
 )
+
 from adafruit_st7789 import ST7789
 import board
 import busio
 import digitalio
-from adafruit_ov2640 import (
-    OV2640,
-    OV2640_SIZE_96X96,
-    OV2640_SIZE_UXGA
-)
+import adafruit_ov2640
 
 release_displays()
 # Set up the display (You must customize this block for your display!)
@@ -43,7 +40,7 @@ with digitalio.DigitalInOut(board.GP10) as reset:
     bus = busio.I2C(board.GP9, board.GP8)
 
 # Set up the camera (you must customize this for your board!)
-cam = OV2640(
+cam = adafruit_ov2640.OV2640(
     bus,
     data_pins=[
         board.GP12,
@@ -66,24 +63,9 @@ cam = OV2640(
 width = display.width
 height = display.height
 
+cam.size = adafruit_ov2640.OV2640_SIZE_QQVGA
 cam.test_pattern = True
-
-bitmap = None
-# Select the biggest size for which we can allocate a bitmap successfully, and
-# which is not bigger than the display
-#for size in range(OV2640_SIZE_UXGA, OV2640_SIZE_96X96 - 1, -1):
-#    print("\n***\n")
-#    cam.size = size
-#    if cam.width > width:
-#        continue
-#    if cam.height > height:
-#        continue
-#    try:
-if 1:
-        bitmap = Bitmap(cam.width, cam.height, 65536)
-#        break
-#    except MemoryError:
-#        continue
+bitmap = Bitmap(cam.width, cam.height, 65536)
 
 print(width, height, cam.width, cam.height)
 if bitmap is None:
