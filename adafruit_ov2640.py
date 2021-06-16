@@ -48,215 +48,216 @@ from adafruit_bus_device.i2c_device import I2CDevice
 
 from micropython import const
 
-R_BYPASS = 0x05
-QS = 0x44
-CTRLI = 0x50
-HSIZE = 0x51
-VSIZE = 0x52
-XOFFL = 0x53
-YOFFL = 0x54
-VHYX = 0x55
-DPRP = 0x56
-TEST = 0x57
-ZMOW = 0x5A
-ZMOH = 0x5B
-ZMHH = 0x5C
-BPADDR = 0x7C
-BPDATA = 0x7D
-CTRL2 = 0x86
-CTRL3 = 0x87
-SIZEL = 0x8C
-HSIZE8 = 0xC0
-VSIZE8 = 0xC1
-CTRL0 = 0xC2
-CTRL1 = 0xC3
-R_DVP_SP = 0xD3
-IMAGE_MODE = 0xDA
-RESET = 0xE0
-MS_SP = 0xF0
-SS_ID = 0xF7
-SS_CTRL = 0xF7
-MC_BIST = 0xF9
-MC_AL = 0xFA
-MC_AH = 0xFB
-MC_D = 0xFC
-P_CMD = 0xFD
-P_STATUS = 0xFE
-BANK_SEL = 0xFF
+R_BYPASS = const(0x05)
+QS = const(0x44)
+CTRLI = const(0x50)
+HSIZE = const(0x51)
+VSIZE = const(0x52)
+XOFFL = const(0x53)
+YOFFL = const(0x54)
+VHYX = const(0x55)
+DPRP = const(0x56)
+TEST = const(0x57)
+ZMOW = const(0x5A)
+ZMOH = const(0x5B)
+ZMHH = const(0x5C)
+BPADDR = const(0x7C)
+BPDATA = const(0x7D)
+CTRL2 = const(0x86)
+CTRL3 = const(0x87)
+SIZEL = const(0x8C)
+HSIZE8 = const(0xC0)
+VSIZE8 = const(0xC1)
+CTRL0 = const(0xC2)
+CTRL1 = const(0xC3)
+R_DVP_SP = const(0xD3)
+IMAGE_MODE = const(0xDA)
+RESET = const(0xE0)
+MS_SP = const(0xF0)
+SS_ID = const(0xF7)
+SS_CTRL = const(0xF7)
+MC_BIST = const(0xF9)
+MC_AL = const(0xFA)
+MC_AH = const(0xFB)
+MC_D = const(0xFC)
+P_CMD = const(0xFD)
+P_STATUS = const(0xFE)
+BANK_SEL = const(0xFF)
 
-CTRLI_LP_DP = 0x80
-CTRLI_ROUND = 0x40
+CTRLI_LP_DP = const(0x80)
+CTRLI_ROUND = const(0x40)
 
-CTRL0_AEC_EN = 0x80
-CTRL0_AEC_SEL = 0x40
-CTRL0_STAT_SEL = 0x20
-CTRL0_VFIRST = 0x10
-CTRL0_YUV422 = 0x08
-CTRL0_YUV_EN = 0x04
-CTRL0_RGB_EN = 0x02
-CTRL0_RAW_EN = 0x01
+CTRL0_AEC_EN = const(0x80)
+CTRL0_AEC_SEL = const(0x40)
+CTRL0_STAT_SEL = const(0x20)
+CTRL0_VFIRST = const(0x10)
+CTRL0_YUV422 = const(0x08)
+CTRL0_YUV_EN = const(0x04)
+CTRL0_RGB_EN = const(0x02)
+CTRL0_RAW_EN = const(0x01)
 
-CTRL2_DCW_EN = 0x20
-CTRL2_SDE_EN = 0x10
-CTRL2_UV_ADJ_EN = 0x08
-CTRL2_UV_AVG_EN = 0x04
-CTRL2_CMX_EN = 0x01
+CTRL2_DCW_EN = const(0x20)
+CTRL2_SDE_EN = const(0x10)
+CTRL2_UV_ADJ_EN = const(0x08)
+CTRL2_UV_AVG_EN = const(0x04)
+CTRL2_CMX_EN = const(0x01)
 
-CTRL3_BPC_EN = 0x80
-CTRL3_WPC_EN = 0x40
+CTRL3_BPC_EN = const(0x80)
+CTRL3_WPC_EN = const(0x40)
 
-R_DVP_SP_AUTO_MODE = 0x80
+R_DVP_SP_AUTO_MODE = const(0x80)
 
-R_BYPASS_DSP_EN = 0x00
-R_BYPASS_DSP_BYPAS = 0x01
+R_BYPASS_DSP_EN = const(0x00)
+R_BYPASS_DSP_BYPAS = const(0x01)
 
 OV2640_COLOR_RGB = 0
 OV2640_COLOR_YUV = 1
 
-IMAGE_MODE_Y8_DVP_EN = 0x40
-IMAGE_MODE_JPEG_EN = 0x10
-IMAGE_MODE_YUV422 = 0x00
-IMAGE_MODE_RAW10 = 0x04
-IMAGE_MODE_RGB565 = 0x08
-IMAGE_MODE_HREF_VSYNC = 0x02
-IMAGE_MODE_LBYTE_FIRST = 0x01
+IMAGE_MODE_Y8_DVP_EN = const(0x40)
+IMAGE_MODE_JPEG_EN = const(0x10)
+IMAGE_MODE_YUV422 = const(0x00)
+IMAGE_MODE_RAW10 = const(0x04)
+IMAGE_MODE_RGB565 = const(0x08)
+IMAGE_MODE_HREF_VSYNC = const(0x02)
+IMAGE_MODE_LBYTE_FIRST = const(0x01)
 
-RESET_MICROC = 0x40
-RESET_SCCB = 0x20
-RESET_JPEG = 0x10
-RESET_DVP = 0x04
-RESET_IPU = 0x02
-RESET_CIF = 0x01
+RESET_MICROC = const(0x40)
+RESET_SCCB = const(0x20)
+RESET_JPEG = const(0x10)
+RESET_DVP = const(0x04)
+RESET_IPU = const(0x02)
+RESET_CIF = const(0x01)
 
-MC_BIST_RESET = 0x80
-MC_BIST_BOOT_ROM_SEL = 0x40
-MC_BIST_12KB_SEL = 0x20
-MC_BIST_12KB_MASK = 0x30
-MC_BIST_512KB_SEL = 0x08
-MC_BIST_512KB_MASK = 0x0C
-MC_BIST_BUSY_BIT_R = 0x02
-MC_BIST_MC_RES_ONE_SH_W = 0x02
-MC_BIST_LAUNCH = 0x01
+MC_BIST_RESET = const(0x80)
+MC_BIST_BOOT_ROM_SEL = const(0x40)
+MC_BIST_12KB_SEL = const(0x20)
+MC_BIST_12KB_MASK = const(0x30)
+MC_BIST_512KB_SEL = const(0x08)
+MC_BIST_512KB_MASK = const(0x0C)
+MC_BIST_BUSY_BIT_R = const(0x02)
+MC_BIST_MC_RES_ONE_SH_W = const(0x02)
+MC_BIST_LAUNCH = const(0x01)
 
 
-BANK_DSP, BANK_SENSOR = range(2)
+BANK_DSP = const(0)
+BANK_SENSOR = const(1)
 
 # Sensor register bank FF=0x01
-GAIN = 0x00
-COM1 = 0x03
-REG04 = 0x04
-REG08 = 0x08
-COM2 = 0x09
-REG_PID = 0x0A
-REG_VER = 0x0B
-COM3 = 0x0C
-COM4 = 0x0D
-AEC = 0x10
-CLKRC = 0x11
-COM7 = 0x12
-COM8 = 0x13
-COM9 = 0x14 # AGC gain ceiling
-COM10 = 0x15
-HSTART = 0x17
-HSTOP = 0x18
-VSTART = 0x19
-VSTOP = 0x1A
-MIDH = 0x1C
-MIDL = 0x1D
-AEW = 0x24
-AEB = 0x25
-VV = 0x26
-REG2A = 0x2A
-FRARL = 0x2B
-ADDVSL = 0x2D
-ADDVSH = 0x2E
-YAVG = 0x2F
-HSDY = 0x30
-HEDY = 0x31
-REG32 = 0x32
-ARCOM2 = 0x34
-REG45 = 0x45
-FLL = 0x46
-FLH = 0x47
-COM19 = 0x48
-ZOOMS = 0x49
-COM22 = 0x4B
-COM25 = 0x4E
-BD50 = 0x4F
-BD60 = 0x50
-REG5D = 0x5D
-REG5E = 0x5E
-REG5F = 0x5F
-REG60 = 0x60
-HISTO_LOW = 0x61
-HISTO_HIGH = 0x62
+GAIN = const(0x00)
+COM1 = const(0x03)
+REG04 = const(0x04)
+REG08 = const(0x08)
+COM2 = const(0x09)
+REG_PID = const(0x0A)
+REG_VER = const(0x0B)
+COM3 = const(0x0C)
+COM4 = const(0x0D)
+AEC = const(0x10)
+CLKRC = const(0x11)
+COM7 = const(0x12)
+COM8 = const(0x13)
+COM9 = const(0x14) # AGC gain ceiling
+COM10 = const(0x15)
+HSTART = const(0x17)
+HSTOP = const(0x18)
+VSTART = const(0x19)
+VSTOP = const(0x1A)
+MIDH = const(0x1C)
+MIDL = const(0x1D)
+AEW = const(0x24)
+AEB = const(0x25)
+VV = const(0x26)
+REG2A = const(0x2A)
+FRARL = const(0x2B)
+ADDVSL = const(0x2D)
+ADDVSH = const(0x2E)
+YAVG = const(0x2F)
+HSDY = const(0x30)
+HEDY = const(0x31)
+REG32 = const(0x32)
+ARCOM2 = const(0x34)
+REG45 = const(0x45)
+FLL = const(0x46)
+FLH = const(0x47)
+COM19 = const(0x48)
+ZOOMS = const(0x49)
+COM22 = const(0x4B)
+COM25 = const(0x4E)
+BD50 = const(0x4F)
+BD60 = const(0x50)
+REG5D = const(0x5D)
+REG5E = const(0x5E)
+REG5F = const(0x5F)
+REG60 = const(0x60)
+HISTO_LOW = const(0x61)
+HISTO_HIGH = const(0x62)
 
-REG04_DEFAULT = 0x28
-REG04_HFLIP_IMG = 0x80
-REG04_VFLIP_IMG = 0x40
-REG04_VREF_EN = 0x10
-REG04_HREF_EN = 0x08
+REG04_DEFAULT = const(0x28)
+REG04_HFLIP_IMG = const(0x80)
+REG04_VFLIP_IMG = const(0x40)
+REG04_VREF_EN = const(0x10)
+REG04_HREF_EN = const(0x08)
 REG04_SET = lambda x: (REG04_DEFAULT|x)
 
-COM2_STDBY = 0x10
-COM2_OUT_DRIVE_1x = 0x00
-COM2_OUT_DRIVE_2x = 0x01
-COM2_OUT_DRIVE_3x = 0x02
-COM2_OUT_DRIVE_4x = 0x03
+COM2_STDBY = const(0x10)
+COM2_OUT_DRIVE_1x = const(0x00)
+COM2_OUT_DRIVE_2x = const(0x01)
+COM2_OUT_DRIVE_3x = const(0x02)
+COM2_OUT_DRIVE_4x = const(0x03)
 
-COM3_DEFAULT = 0x38
-COM3_BAND_50Hz = 0x04
-COM3_BAND_60Hz = 0x00
-COM3_BAND_AUTO = 0x02
+COM3_DEFAULT = const(0x38)
+COM3_BAND_50Hz = const(0x04)
+COM3_BAND_60Hz = const(0x00)
+COM3_BAND_AUTO = const(0x02)
 COM3_BAND_SET = lambda x:    (COM3_DEFAULT|x)
 
-COM7_SRST = 0x80
-COM7_RES_UXGA = 0x00 # UXGA
-COM7_RES_SVGA = 0x40 # SVGA
-COM7_RES_CIF = 0x20 # CIF 
-COM7_ZOOM_EN = 0x04 # Enable Zoom
-COM7_COLOR_BAR = 0x02 # Enable Color Bar Test
+COM7_SRST = const(0x80)
+COM7_RES_UXGA = const(0x00) # UXGA
+COM7_RES_SVGA = const(0x40) # SVGA
+COM7_RES_CIF = const(0x20) # CIF 
+COM7_ZOOM_EN = const(0x04) # Enable Zoom
+COM7_COLOR_BAR = const(0x02) # Enable Color Bar Test
 
-COM8_DEFAULT = 0xC0
-COM8_BNDF_EN = 0x20 # Enable Banding filter
-COM8_AGC_EN = 0x04 # AGC Auto/Manual control selection
-COM8_AEC_EN = 0x01 # Auto/Manual Exposure control
+COM8_DEFAULT = const(0xC0)
+COM8_BNDF_EN = const(0x20) # Enable Banding filter
+COM8_AGC_EN = const(0x04) # AGC Auto/Manual control selection
+COM8_AEC_EN = const(0x01) # Auto/Manual Exposure control
 COM8_SET = lambda x:         (COM8_DEFAULT|x)
 
-COM9_DEFAULT = 0x08
-COM9_AGC_GAIN_2x = 0x00 # AGC:    2x
-COM9_AGC_GAIN_4x = 0x01 # AGC:    4x
-COM9_AGC_GAIN_8x = 0x02 # AGC:    8x
-COM9_AGC_GAIN_16x = 0x03 # AGC:   16x
-COM9_AGC_GAIN_32x = 0x04 # AGC:   32x
-COM9_AGC_GAIN_64x = 0x05 # AGC:   64x
-COM9_AGC_GAIN_128x = 0x06 # AGC:  128x
+COM9_DEFAULT = const(0x08)
+COM9_AGC_GAIN_2x = const(0x00) # AGC:    2x
+COM9_AGC_GAIN_4x = const(0x01) # AGC:    4x
+COM9_AGC_GAIN_8x = const(0x02) # AGC:    8x
+COM9_AGC_GAIN_16x = const(0x03) # AGC:   16x
+COM9_AGC_GAIN_32x = const(0x04) # AGC:   32x
+COM9_AGC_GAIN_64x = const(0x05) # AGC:   64x
+COM9_AGC_GAIN_128x = const(0x06) # AGC:  128x
 COM9_AGC_SET = lambda x:     (COM9_DEFAULT|(x<<5))
 
-COM10_HREF_EN = 0x80 # HSYNC changes to HREF
-COM10_HSYNC_EN = 0x40 # HREF changes to HSYNC
-COM10_PCLK_FREE = 0x20 # PCLK output option: free running PCLK
-COM10_PCLK_EDGE = 0x10 # Data is updated at the rising edge of PCLK
-COM10_HREF_NEG = 0x08 # HREF negative
-COM10_VSYNC_NEG = 0x02 # VSYNC negative
-COM10_HSYNC_NEG = 0x01 # HSYNC negative
+COM10_HREF_EN = const(0x80) # HSYNC changes to HREF
+COM10_HSYNC_EN = const(0x40) # HREF changes to HSYNC
+COM10_PCLK_FREE = const(0x20) # PCLK output option: free running PCLK
+COM10_PCLK_EDGE = const(0x10) # Data is updated at the rising edge of PCLK
+COM10_HREF_NEG = const(0x08) # HREF negative
+COM10_VSYNC_NEG = const(0x02) # VSYNC negative
+COM10_HSYNC_NEG = const(0x01) # HSYNC negative
 
-CTRL1_AWB = 0x08 # Enable AWB
+CTRL1_AWB = const(0x08) # Enable AWB
 
 VV_AGC_TH_SET = lambda h,l:  ((h<<4)|(l&0x0F))
 
-REG32_UXGA = 0x36
-REG32_SVGA = 0x09
-REG32_CIF = 0x89
+REG32_UXGA = const(0x36)
+REG32_SVGA = const(0x09)
+REG32_CIF = const(0x89)
 
-CLKRC_2X = 0x80
-CLKRC_2X_UXGA = (0x01 | CLKRC_2X)
+CLKRC_2X = const(0x80)
+CLKRC_2X_UXGA = const(0x01 | CLKRC_2X)
 CLKRC_2X_SVGA = CLKRC_2X
 CLKRC_2X_CIF = CLKRC_2X
 
-OV2640_MODE_CIF = 0
-OV2640_MODE_SVGA = 1
-OV2640_MODE_UXGA = 2
+OV2640_MODE_CIF = const(0)
+OV2640_MODE_SVGA = const(1)
+OV2640_MODE_UXGA = const(2)
 
 OV2640_SIZE_96X96 = 0  # 96x96
 OV2640_SIZE_QQVGA = 1  # 160x120
@@ -273,17 +274,17 @@ OV2640_SIZE_HD = 11  # 1280x720
 OV2640_SIZE_SXGA = 12  # 1280x1024
 OV2640_SIZE_UXGA = 13  # 1600x1200
 
-ASPECT_RATIO_4X3 = 0
-ASPECT_RATIO_3X2 = 1
-ASPECT_RATIO_16X10 = 2
-ASPECT_RATIO_5X3 = 3
-ASPECT_RATIO_16X9 = 4
-ASPECT_RATIO_21X9 = 5
-ASPECT_RATIO_5X4 = 6
-ASPECT_RATIO_1X1 = 7
-ASPECT_RATIO_9X16 = 8
+ASPECT_RATIO_4X3 = const(0)
+ASPECT_RATIO_3X2 = const(1)
+ASPECT_RATIO_16X10 = const(2)
+ASPECT_RATIO_5X3 = const(3)
+ASPECT_RATIO_16X9 = const(4)
+ASPECT_RATIO_21X9 = const(5)
+ASPECT_RATIO_5X4 = const(6)
+ASPECT_RATIO_1X1 = const(7)
+ASPECT_RATIO_9X16 = const(8)
 
-resolution_info = [
+_resolution_info = [
     [   96,   96, ASPECT_RATIO_1X1   ], # 96x96
     [  160,  120, ASPECT_RATIO_4X3   ], # QQVGA
     [  176,  144, ASPECT_RATIO_5X4   ], # QCIF 
@@ -300,7 +301,7 @@ resolution_info = [
     [ 1600, 1200, ASPECT_RATIO_4X3   ], # UXGA 
 ]
 
-ratio_table = [
+_ratio_table = [
     # ox,  oy,   mx,   my
     [   0,   0, 1600, 1200 ], # 4x3
     [   8,  72, 1584, 1056 ], # 3x2
@@ -314,7 +315,7 @@ ratio_table = [
 ]
 
 # 30fps@24MHz
-ov2640_settings_cif = [
+_ov2640_settings_cif = bytes([
     BANK_SEL, BANK_DSP,
     0x2c, 0xff,
     0x2e, 0xdf,
@@ -472,9 +473,9 @@ ov2640_settings_cif = [
     IMAGE_MODE, 0x00,
     RESET, 0x00,
     R_BYPASS, R_BYPASS_DSP_EN,
-]
+])
 
-ov2640_settings_to_cif = [
+_ov2640_settings_to_cif = bytes([
     BANK_SEL, BANK_SENSOR,
     COM7, COM7_RES_CIF,
 
@@ -522,9 +523,9 @@ ov2640_settings_to_cif = [
     CTRL2, CTRL2_DCW_EN | 0x1D,
     CTRLI, CTRLI_LP_DP | 0x00,
     # R_DVP_SP, 0x08,
-]
+])
 
-ov2640_settings_to_svga = [
+_ov2640_settings_to_svga = bytes([
     BANK_SEL, BANK_SENSOR,
     COM7, COM7_RES_SVGA,
 
@@ -574,9 +575,9 @@ ov2640_settings_to_svga = [
     CTRL2, CTRL2_DCW_EN | 0x1D,
     CTRLI, CTRLI_LP_DP | 0x00,
     # R_DVP_SP, 0x08,
-]
+])
 
-ov2640_settings_to_uxga = [
+_ov2640_settings_to_uxga = bytes([
     BANK_SEL, BANK_SENSOR,
     COM7, COM7_RES_UXGA,
 
@@ -625,101 +626,41 @@ ov2640_settings_to_uxga = [
     CTRL2, CTRL2_DCW_EN | 0x1d,
     CTRLI, 0x00,
     # R_DVP_SP, 0x06,
-]
+])
 
-ov2640_settings_jpeg3 = [
-    BANK_SEL, BANK_DSP,
-    RESET, RESET_JPEG | RESET_DVP,
-    IMAGE_MODE, IMAGE_MODE_JPEG_EN | IMAGE_MODE_HREF_VSYNC,
-    0xD7, 0x03,
-    0xE1, 0x77,
-    0xE5, 0x1F,
-    0xD9, 0x10,
-    0xDF, 0x80,
-    0x33, 0x80,
-    0x3C, 0x10,
-    0xEB, 0x30,
-    0xDD, 0x7F,
-    RESET, 0x00,
-]
+# _ov2640_settings_jpeg3 = bytes([
+#     BANK_SEL, BANK_DSP,
+#     RESET, RESET_JPEG | RESET_DVP,
+#     IMAGE_MODE, IMAGE_MODE_JPEG_EN | IMAGE_MODE_HREF_VSYNC,
+#     0xD7, 0x03,
+#     0xE1, 0x77,
+#     0xE5, 0x1F,
+#     0xD9, 0x10,
+#     0xDF, 0x80,
+#     0x33, 0x80,
+#     0x3C, 0x10,
+#     0xEB, 0x30,
+#     0xDD, 0x7F,
+#     RESET, 0x00,
+# ])
 
-ov2640_settings_yuv422 = [
+_ov2640_settings_yuv422 = bytes([
     BANK_SEL, BANK_DSP,
     RESET, RESET_DVP,
     IMAGE_MODE, IMAGE_MODE_YUV422,
     0xD7, 0x01,
     0xE1, 0x67,
     RESET, 0x00,
-]
+])
 
-ov2640_settings_rgb565 = [
+_ov2640_settings_rgb565 = bytes([
     BANK_SEL, BANK_DSP,
     RESET, RESET_DVP,
     IMAGE_MODE, IMAGE_MODE_RGB565,
     0xD7, 0x03,
     0xE1, 0x77,
     RESET, 0x00,
-]
-
-brightness_regs = [
-    [BPADDR, BPDATA, BPADDR, BPDATA, BPDATA ],
-    [0x00, 0x04, 0x09, 0x00, 0x00 ], # -2
-    [0x00, 0x04, 0x09, 0x10, 0x00 ], # -1
-    [0x00, 0x04, 0x09, 0x20, 0x00 ], #  0
-    [0x00, 0x04, 0x09, 0x30, 0x00 ], # +1
-    [0x00, 0x04, 0x09, 0x40, 0x00 ], # +2
-]
-
-contrast_regs = [
-    [BPADDR, BPDATA, BPADDR, BPDATA, BPDATA, BPDATA, BPDATA ],
-    [0x00, 0x04, 0x07, 0x20, 0x18, 0x34, 0x06 ], # -2
-    [0x00, 0x04, 0x07, 0x20, 0x1c, 0x2a, 0x06 ], # -1
-    [0x00, 0x04, 0x07, 0x20, 0x20, 0x20, 0x06 ], #  0
-    [0x00, 0x04, 0x07, 0x20, 0x24, 0x16, 0x06 ], # +1
-    [0x00, 0x04, 0x07, 0x20, 0x28, 0x0c, 0x06 ], # +2
-]
-
-saturation_regs = [
-    [BPADDR, BPDATA, BPADDR, BPDATA, BPDATA ],
-    [0x00, 0x02, 0x03, 0x28, 0x28 ], # -2
-    [0x00, 0x02, 0x03, 0x38, 0x38 ], # -1
-    [0x00, 0x02, 0x03, 0x48, 0x48 ], #  0
-    [0x00, 0x02, 0x03, 0x58, 0x58 ], # +1
-    [0x00, 0x02, 0x03, 0x68, 0x68 ], # +2
-]
-
-special_effects_regs = [
-    [BPADDR, BPDATA, BPADDR, BPDATA, BPDATA ],
-    [0x00, 0X00, 0x05, 0X80, 0X80 ], # no effect
-    [0x00, 0X40, 0x05, 0X80, 0X80 ], # negative
-    [0x00, 0X18, 0x05, 0X80, 0X80 ], # black and white
-    [0x00, 0X18, 0x05, 0X40, 0XC0 ], # reddish
-    [0x00, 0X18, 0x05, 0X40, 0X40 ], # greenish
-    [0x00, 0X18, 0x05, 0XA0, 0X40 ], # blue
-    [0x00, 0X18, 0x05, 0X40, 0XA6 ], # retro
-]
-
-wb_modes_regs = [
-    [0XCC, 0XCD, 0XCE ],
-    [0x5E, 0X41, 0x54 ], # sunny
-    [0x65, 0X41, 0x4F ], # cloudy
-    [0x52, 0X41, 0x66 ], # office
-    [0x42, 0X3F, 0x71 ], # home
-]
-
-ae_levels_regs = [
-    [ AEW,  AEB,  VV  ],
-    [0x20, 0X18, 0x60 ],
-    [0x34, 0X1C, 0x00 ],
-    [0x3E, 0X38, 0x81 ],
-    [0x48, 0X40, 0x81 ],
-    [0x58, 0X50, 0x92 ],
-]
-
-agc_gain_tbl = [
-    0x00, 0x10, 0x18, 0x30, 0x34, 0x38, 0x3C, 0x70, 0x72, 0x74, 0x76, 0x78, 0x7A, 0x7C, 0x7E, 0xF0,
-    0xF1, 0xF2, 0xF3, 0xF4, 0xF5, 0xF6, 0xF7, 0xF8, 0xF9, 0xFA, 0xFB, 0xFC, 0xFD, 0xFE, 0xFF
-]
+])
 
 class RegBits:
     def __init__(self, bank, reg, shift, mask):
@@ -816,7 +757,7 @@ class OV2640:  # pylint: disable=too-many-instance-attributes
         self._write_bank_register(BANK_SENSOR, COM7, COM7_SRST)
         time.sleep(0.001)
 
-        self._write_list(ov2640_settings_cif)
+        self._write_list(_ov2640_settings_cif)
 
         self._colorspace = OV2640_COLOR_RGB
         self._w = None
@@ -875,10 +816,10 @@ class OV2640:  # pylint: disable=too-many-instance-attributes
     def colorspace(self, colorspace):
         self._colorspace = colorspace
         print('setting colorspace')
-        self._write_list(ov2640_settings_rgb565 if colorspace == OV2640_COLOR_RGB else ov2640_settings_yuv422)
+        self._write_list(_ov2640_settings_rgb565 if colorspace == OV2640_COLOR_RGB else _ov2640_settings_yuv422)
         print('setting colorspace again')
         # written twice?
-        self._write_list(ov2640_settings_rgb565 if colorspace == OV2640_COLOR_RGB else ov2640_settings_yuv422)
+        self._write_list(_ov2640_settings_rgb565 if colorspace == OV2640_COLOR_RGB else _ov2640_settings_yuv422)
         time.sleep(.01)
 
     def deinit(self):
@@ -898,8 +839,8 @@ class OV2640:  # pylint: disable=too-many-instance-attributes
 
     @size.setter
     def size(self, size):
-        width, height, ratio = resolution_info[size]
-        offset_x, offset_y, max_x, max_y = ratio_table[ratio]
+        width, height, ratio = _resolution_info[size]
+        offset_x, offset_y, max_x, max_y = _ratio_table[ratio]
         print(f"set size={size} {width}x{height} ratio={ratio}")
         print(f"pre", offset_x, offset_y, max_x, max_y)
         mode = OV2640_MODE_UXGA
@@ -1033,15 +974,15 @@ class OV2640:  # pylint: disable=too-many-instance-attributes
 
         if mode == OV2640_MODE_CIF:
             print("using cif settings")
-            regs = ov2640_settings_to_cif
+            regs = _ov2640_settings_to_cif
             #if pixformat is not jpeg:
             clk_div = 3
         elif mode == OV2640_MODE_SVGA:
             print("using svga settings")
-            regs = ov2640_settings_to_svga
+            regs = _ov2640_settings_to_svga
         else:
             print("using uxga settings")
-            regs = ov2640_settings_to_uxga
+            regs = _ov2640_settings_to_uxga
             pclk_div = 12
 
         clk = clk_div | (clk_2x << 7)
