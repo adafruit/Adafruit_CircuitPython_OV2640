@@ -37,19 +37,34 @@ This is easily achieved by downloading
 or individual libraries can be installed using
 `circup <https://github.com/adafruit/circup>`_.
 
-.. todo:: Describe the Adafruit product this library works with. For PCBs, you can also add the
-image from the assets folder in the PCB's GitHub repo.
-
-`Purchase one from the Adafruit shop <http://www.adafruit.com/products/>`_
-
 
 
 
 Usage Example
 =============
 
-.. todo:: Add a quick, simple example. It and other examples should live in the
-examples folder and be included in docs/examples.rst.
+On an Adafruit Metro M4 Grand Central, capture a 160x120 image into a buffer:
+
+.. code-block:: python3
+    import board
+    from adafruit_ov2640 import OV2640, OV2640_SIZE_QQVGA
+
+    cam = OV2640(
+        bus,
+        data_pins=[board.PCC_D0, board.PCC_D1, board.PCC_D2, board.PCC_D3, board.PCC_D4, board.PCC_D5, board.PCC_D6, board.PCC_D7],
+        clock=board.PCC_CLK,
+        vsync=board.PCC_DEN1,
+        href=board.PCC_DEN2,
+        mclk=board.D29,
+        shutdown=board.D39,
+        reset=board.D38,
+    )
+    cam.size = OV2640_SIZE_QQVGA
+
+    buf = bytearray(2 * cam.width * cam.height)
+
+    cam.capture(buf)
+
 
 Contributing
 ============
