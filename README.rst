@@ -38,12 +38,14 @@ or individual libraries can be installed using
 `circup <https://github.com/adafruit/circup>`_.
 
 
+* `ESP32-S2 Kaluga Dev Kit featuring ESP32-S2 WROVER <https://www.adafruit.com/product/4729>`_
+
 
 
 Usage Example
 =============
 
-On an Espressif Kaluga ESP32-S2, capture a 160x120 image into a buffer:
+Using the ESP32-S2 Kaluga Dev Kit and its included camera, capture a 160x120 image into a buffer:
 
 .. code-block:: python3
 
