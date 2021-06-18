@@ -24,11 +24,7 @@ import board
 import busio
 import displayio
 from adafruit_st7789 import ST7789
-from adafruit_ov2640 import (  # pylint: disable=unused-import
-    OV2640,
-    OV2640_SIZE_DIV2,
-    OV2640_NIGHT_MODE_2,
-)
+import adafruit_ov2640
 
 # Pylint is unable to see that the "size" property of OV2640_GrandCentral exists
 # pylint: disable=attribute-defined-outside-init
@@ -45,7 +41,7 @@ display = ST7789(
 )
 
 bus = busio.I2C(scl=board.CAMERA_SIOC, sda=board.CAMERA_SIOD)
-cam = OV2640(
+cam = adafruit_ov2640.OV2640(
     bus,
     data_pins=board.CAMERA_DATA,
     clock=board.CAMERA_PCLK,
@@ -53,15 +49,15 @@ cam = OV2640(
     href=board.CAMERA_HREF,
     mclk=board.CAMERA_XCLK,
     mclk_frequency=20_000_000,
+    size=adafruit_ov2640.OV2640_SIZE_QVGA,
 )
 
-cam.size = OV2640_SIZE_DIV2
-cam.flip_x = False
-cam.flip_y = True
+# cam.flip_x = False
+# cam.flip_y = True
 pid = cam.product_id
 ver = cam.product_version
 print(f"Detected pid={pid:x} ver={ver:x}")
-cam.test_pattern = True
+# cam.test_pattern = True
 
 g = displayio.Group(scale=1)
 bitmap = displayio.Bitmap(320, 240, 65536)
@@ -79,5 +75,6 @@ while True:
     cam.capture(bitmap)
     bitmap.dirty()
     display.refresh(minimum_frames_per_second=0)
+    print(".")
 
 cam.deinit()

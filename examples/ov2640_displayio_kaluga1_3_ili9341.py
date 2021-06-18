@@ -23,11 +23,7 @@ import board
 import busio
 import displayio
 from adafruit_ili9341 import ILI9341
-from adafruit_ov2640 import (  # pylint: disable=unused-import
-    OV2640,
-    OV2640_SIZE_DIV2,
-    OV2640_NIGHT_MODE_2,
-)
+import adafruit_ov2640
 
 # Pylint is unable to see that the "size" property of OV2640_GrandCentral exists
 # pylint: disable=attribute-defined-outside-init
@@ -39,10 +35,10 @@ spi = busio.SPI(MOSI=board.LCD_MOSI, clock=board.LCD_CLK)
 display_bus = displayio.FourWire(
     spi, command=board.LCD_D_C, chip_select=board.LCD_CS, reset=board.LCD_RST
 )
-display = ILI9341(display_bus, width=320, height=240)
+display = ILI9341(display_bus, width=320, height=240, rotation=90)
 
 bus = busio.I2C(scl=board.CAMERA_SIOC, sda=board.CAMERA_SIOD)
-cam = OV2640(
+cam = adafruit_ov2640.OV2640(
     bus,
     data_pins=board.CAMERA_DATA,
     clock=board.CAMERA_PCLK,
@@ -50,9 +46,9 @@ cam = OV2640(
     href=board.CAMERA_HREF,
     mclk=board.CAMERA_XCLK,
     mclk_frequency=20_000_000,
+    size=adafruit_ov2640.OV2640_SIZE_QVGA,
 )
 
-cam.size = OV2640_SIZE_DIV2
 cam.flip_x = False
 cam.flip_y = True
 pid = cam.product_id
