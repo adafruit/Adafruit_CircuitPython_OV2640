@@ -102,8 +102,8 @@ _R_DVP_SP_AUTO_MODE = const(0x80)
 _R_BYPASS_DSP_EN = const(0x00)
 _R_BYPASS_DSP_BYPAS = const(0x01)
 
-_OV2640_COLOR_RGB = 0
-_OV2640_COLOR_YUV = 1
+OV2640_COLOR_RGB = 0
+OV2640_COLOR_YUV = 1
 
 _IMAGE_MODE_Y8_DVP_EN = const(0x40)
 _IMAGE_MODE_JPEG_EN = const(0x10)
@@ -1083,7 +1083,7 @@ class OV2640(_SCCBCameraBase):  # pylint: disable=too-many-instance-attributes
 
         self._write_list(_ov2640_settings_cif)
 
-        self._colorspace = _OV2640_COLOR_RGB
+        self._colorspace = OV2640_COLOR_RGB
         self._w = None
         self._h = None
         self._size = None
@@ -1140,13 +1140,13 @@ class OV2640(_SCCBCameraBase):  # pylint: disable=too-many-instance-attributes
         self._colorspace = colorspace
         self._write_list(
             _ov2640_settings_rgb565
-            if colorspace == _OV2640_COLOR_RGB
+            if colorspace == OV2640_COLOR_RGB
             else _ov2640_settings_yuv422
         )
         # written twice?
         self._write_list(
             _ov2640_settings_rgb565
-            if colorspace == _OV2640_COLOR_RGB
+            if colorspace == OV2640_COLOR_RGB
             else _ov2640_settings_yuv422
         )
         time.sleep(0.01)
