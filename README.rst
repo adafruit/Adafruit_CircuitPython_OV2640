@@ -38,30 +38,30 @@ or individual libraries can be installed using
 `circup <https://github.com/adafruit/circup>`_.
 
 
+* `ESP32-S2 Kaluga Dev Kit featuring ESP32-S2 WROVER <https://www.adafruit.com/product/4729>`_
+
 
 
 Usage Example
 =============
 
-On an Adafruit Metro M4 Grand Central, capture a 160x120 image into a buffer:
+Using the ESP32-S2 Kaluga Dev Kit and its included camera, capture a 160x120 image into a buffer:
 
 .. code-block:: python3
 
     import board
     from adafruit_ov2640 import OV2640, OV2640_SIZE_QQVGA
 
+    bus = busio.I2C(scl=board.CAMERA_SIOC, sda=board.CAMERA_SIOD)
     cam = OV2640(
         bus,
-        data_pins=[board.PCC_D0, board.PCC_D1, board.PCC_D2, board.PCC_D3, board.PCC_D4, board.PCC_D5, board.PCC_D6, board.PCC_D7],
-        clock=board.PCC_CLK,
-        vsync=board.PCC_DEN1,
-        href=board.PCC_DEN2,
-        mclk=board.D29,
-        shutdown=board.D39,
-        reset=board.D38,
+        data_pins=board.CAMERA_DATA,
+        clock=board.CAMERA_PCLK,
+        vsync=board.CAMERA_VSYNC,
+        href=board.CAMERA_HREF,
+        mclk=board.CAMERA_XCLK,
+        size=OV2640_SIZE_QQVGA,
     )
-    cam.size = OV2640_SIZE_QQVGA
-
     buf = bytearray(2 * cam.width * cam.height)
 
     cam.capture(buf)

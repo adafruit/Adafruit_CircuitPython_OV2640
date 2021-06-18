@@ -16,10 +16,12 @@ Implementation Notes
 
 **Hardware:**
 
+* `ESP32-S2 Kaluga Dev Kit featuring ESP32-S2 WROVER <https://www.adafruit.com/product/4729>`_
+
 **Software and Dependencies:**
 
 * Adafruit CircuitPython firmware for the supported boards:
-  https:# github.com/adafruit/circuitpython/releases
+  https://github.com/adafruit/circuitpython/releases
 
 * Adafruit's Bus Device library: https:# github.com/adafruit/Adafruit_CircuitPython_BusDevice
 """
