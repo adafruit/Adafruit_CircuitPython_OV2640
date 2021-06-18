@@ -5,6 +5,10 @@
 
 """Capture an image from the camera and display it as ASCII art.
 
+This demo is designed to run on the Kaluga, but you can adapt it
+to other boards by changing the constructors for `bus` and `cam`
+appropriately.
+
 The camera is placed in YUV mode, so the top 8 bits of each color
 value can be treated as "greyscale".
 
@@ -23,37 +27,26 @@ import digitalio
 import busio
 import board
 
-from adafruit_ov2640 import (  # pylint: disable=unused-import
-    OV2640,
-    OV2640_SIZE_DIV16,
-    OV2640_COLOR_YUV,
-)
+import adafruit_ov2640
 
-# Ensure the camera is shut down, so that it releases the SDA/SCL lines,
-# then create the configuration I2C bus
-
-with digitalio.DigitalInOut(board.D39) as shutdown:
-    shutdown.switch_to_output(True)
-    time.sleep(0.001)
-    bus = busio.I2C(board.D24, board.D25)
-
-cam = OV2640(
+bus = busio.I2C(scl=board.CAMERA_SIOC, sda=board.CAMERA_SIOD)
+cam = adafruit_ov2640.OV2640(
     bus,
-    data0=board.PCC_D0,
-    clock=board.PCC_CLK,
-    vsync=board.PCC_DEN1,
-    href=board.PCC_DEN2,
-    mclk=board.D29,
-    shutdown=board.D39,
-    reset=board.D38,
+    data_pins=board.CAMERA_DATA,
+    clock=board.CAMERA_PCLK,
+    vsync=board.CAMERA_VSYNC,
+    href=board.CAMERA_HREF,
+    mclk=board.CAMERA_XCLK,
+    mclk_frequency=20_000_000,
+    size=adafruit_ov2640.OV2640_SIZE_QQVGA,
 )
-cam.size = OV2640_SIZE_DIV16
-cam.colorspace = OV2640_COLOR_YUV
+cam.colorspace = adafruit_ov2640.OV2640_COLOR_YUV
 cam.flip_y = True
 # cam.test_pattern = True
 
 buf = bytearray(2 * cam.width * cam.height)
 chars = b" .:-=+*#%@"
+remap = [chars[i * (len(chars) - 1) // 255] for i in range(256)]
 
 width = cam.width
 row = bytearray(2 * width)
@@ -61,12 +54,10 @@ row = bytearray(2 * width)
 sys.stdout.write("\033[2J")
 while True:
     cam.capture(buf)
-    for j in range(cam.height):
+    for j in range(cam.height // 2):
         sys.stdout.write(f"\033[{j}H")
-        for i in range(cam.width):
-            row[i * 2] = row[i * 2 + 1] = chars[
-                buf[2 * (width * j + i)] * (len(chars) - 1) // 255
-            ]
+        for i in range(cam.width // 2):
+            row[i * 2] = row[i * 2 + 1] = remap[buf[4 * (width * j + i)]]
         sys.stdout.write(row)
         sys.stdout.write("\033[K")
     sys.stdout.write("\033[J")
