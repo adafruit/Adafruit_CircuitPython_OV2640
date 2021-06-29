@@ -23,8 +23,8 @@ import board
 import busio
 import displayio
 from adafruit_ili9341 import ILI9341
-import adafruit_ov2640
 import ulab.numpy as np
+import adafruit_ov2640
 
 # Pylint is unable to see that the "size" property of OV2640_GrandCentral exists
 # pylint: disable=attribute-defined-outside-init
@@ -72,7 +72,7 @@ display.show(g)
 display.auto_refresh = False
 while True:
     cam.capture(bitmap)
-    arr[:]= ~arr        # Invert every pixel in the bitmap, via the array
+    arr[:] = ~arr  # Invert every pixel in the bitmap, via the array
     bitmap.dirty()
     display.refresh(minimum_frames_per_second=0)
 

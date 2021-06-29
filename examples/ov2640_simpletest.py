@@ -23,7 +23,6 @@ the test pattern!
 import sys
 import time
 
-import digitalio
 import busio
 import board
 
