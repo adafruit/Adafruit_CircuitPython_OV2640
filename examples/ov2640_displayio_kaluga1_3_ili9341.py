@@ -12,9 +12,6 @@ st7789.  Furthermore, there are at least 2 ILI9341 variants, one of which needs
 rotation=90!  This demo is for the ili9341.  If the display is garbled, try adding
 rotation=90, or try modifying it to use ST7799.
 
-The camera included with the Kaluga development kit is the incompatible OV2640,
-it won't work.
-
 The audio board must be mounted between the Kaluga and the LCD, it provides the
 I2C pull-ups(!)
 """
