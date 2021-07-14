@@ -1130,6 +1130,19 @@ class OV2640(_SCCBCameraBase):  # pylint: disable=too-many-instance-attributes
                 captured image.  Note that this can be a ulab array or a displayio Bitmap.
         """
         self._imagecapture.capture(buf)
+        if self.colorspace == OV2640_COLOR_JPEG:
+            eoi = buf.find(b"\xff\xd9")
+            if eoi != -1:
+                # terminate the JPEG data just after the EOI marker
+                return memoryview(buf)[: eoi + 2]
+        return None
+
+    @property
+    def capture_buffer_size(self):
+        """Return the size of capture buffer to use with current resolution & colorspace settings"""
+        if self.colorspace == OV2640_COLOR_JPEG:
+            return self.width * self.height // 5
+        return self.width * self.height * 2
 
     @property
     def mclk_frequency(self):
