@@ -106,6 +106,7 @@ _R_BYPASS_DSP_BYPAS = const(0x01)
 
 OV2640_COLOR_RGB = 0
 OV2640_COLOR_YUV = 1
+OV2640_COLOR_JPEG = 2
 
 _IMAGE_MODE_Y8_DVP_EN = const(0x40)
 _IMAGE_MODE_JPEG_EN = const(0x10)
@@ -886,55 +887,70 @@ _ov2640_settings_to_uxga = bytes(
     ]
 )
 
-# _ov2640_settings_jpeg3 = bytes([
-#     _BANK_SEL, _BANK_DSP,
-#     _RESET, _RESET_JPEG | _RESET_DVP,
-#     _IMAGE_MODE, _IMAGE_MODE_JPEG_EN | _IMAGE_MODE_HREF_VSYNC,
-#     0xD7, 0x03,
-#     0xE1, 0x77,
-#     0xE5, 0x1F,
-#     0xD9, 0x10,
-#     0xDF, 0x80,
-#     0x33, 0x80,
-#     0x3C, 0x10,
-#     0xEB, 0x30,
-#     0xDD, 0x7F,
-#     _RESET, 0x00,
-# ])
-
-_ov2640_settings_yuv422 = bytes(
-    [
-        _BANK_SEL,
-        _BANK_DSP,
-        _RESET,
-        _RESET_DVP,
-        _IMAGE_MODE,
-        _IMAGE_MODE_YUV422,
-        0xD7,
-        0x01,
-        0xE1,
-        0x67,
-        _RESET,
-        0x00,
-    ]
-)
-
-_ov2640_settings_rgb565 = bytes(
-    [
-        _BANK_SEL,
-        _BANK_DSP,
-        _RESET,
-        _RESET_DVP,
-        _IMAGE_MODE,
-        _IMAGE_MODE_RGB565,
-        0xD7,
-        0x03,
-        0xE1,
-        0x77,
-        _RESET,
-        0x00,
-    ]
-)
+_ov2640_color_settings = {
+    OV2640_COLOR_JPEG: bytes(
+        [
+            _BANK_SEL,
+            _BANK_DSP,
+            _RESET,
+            _RESET_JPEG | _RESET_DVP,
+            _IMAGE_MODE,
+            _IMAGE_MODE_JPEG_EN | _IMAGE_MODE_HREF_VSYNC,
+            0xD7,
+            0x03,
+            0xE1,
+            0x77,
+            0xE5,
+            0x1F,
+            0xD9,
+            0x10,
+            0xDF,
+            0x80,
+            0x33,
+            0x80,
+            0x3C,
+            0x10,
+            0xEB,
+            0x30,
+            0xDD,
+            0x7F,
+            _RESET,
+            0x00,
+        ]
+    ),
+    OV2640_COLOR_YUV: bytes(
+        [
+            _BANK_SEL,
+            _BANK_DSP,
+            _RESET,
+            _RESET_DVP,
+            _IMAGE_MODE,
+            _IMAGE_MODE_YUV422,
+            0xD7,
+            0x01,
+            0xE1,
+            0x67,
+            _RESET,
+            0x00,
+        ]
+    ),
+    OV2640_COLOR_RGB: bytes(
+        [
+            _BANK_SEL,
+            _BANK_DSP,
+            _RESET,
+            _RESET_DVP,
+            _IMAGE_MODE,
+            _IMAGE_MODE_RGB565,
+            0xD7,
+            0x03,
+            0xE1,
+            0x77,
+            _RESET,
+            0x00,
+        ]
+    ),
+}
 
 
 class _RegBits:
@@ -1114,6 +1130,19 @@ class OV2640(_SCCBCameraBase):  # pylint: disable=too-many-instance-attributes
                 captured image.  Note that this can be a ulab array or a displayio Bitmap.
         """
         self._imagecapture.capture(buf)
+        if self.colorspace == OV2640_COLOR_JPEG:
+            eoi = buf.find(b"\xff\xd9")
+            if eoi != -1:
+                # terminate the JPEG data just after the EOI marker
+                return memoryview(buf)[: eoi + 2]
+        return None
+
+    @property
+    def capture_buffer_size(self):
+        """Return the size of capture buffer to use with current resolution & colorspace settings"""
+        if self.colorspace == OV2640_COLOR_JPEG:
+            return self.width * self.height // 5
+        return self.width * self.height * 2
 
     @property
     def mclk_frequency(self):
@@ -1140,17 +1169,15 @@ class OV2640(_SCCBCameraBase):  # pylint: disable=too-many-instance-attributes
     @colorspace.setter
     def colorspace(self, colorspace):
         self._colorspace = colorspace
-        self._write_list(
-            _ov2640_settings_rgb565
-            if colorspace == OV2640_COLOR_RGB
-            else _ov2640_settings_yuv422
-        )
+        self._set_size_and_colorspace()
+
+    def _set_colorspace(self):
+        colorspace = self._colorspace
+        settings = _ov2640_color_settings[colorspace]
+
+        self._write_list(settings)
         # written twice?
-        self._write_list(
-            _ov2640_settings_rgb565
-            if colorspace == OV2640_COLOR_RGB
-            else _ov2640_settings_yuv422
-        )
+        self._write_list(settings)
         time.sleep(0.01)
 
     def deinit(self):
@@ -1168,8 +1195,8 @@ class OV2640(_SCCBCameraBase):  # pylint: disable=too-many-instance-attributes
         """Get or set the captured image size, one of the ``OV2640_SIZE_`` constants."""
         return self._size
 
-    @size.setter
-    def size(self, size):
+    def _set_size_and_colorspace(self):
+        size = self._size
         width, height, ratio = _resolution_info[size]
         offset_x, offset_y, max_x, max_y = _ratio_table[ratio]
         mode = _OV2640_MODE_UXGA
@@ -1190,7 +1217,11 @@ class OV2640(_SCCBCameraBase):  # pylint: disable=too-many-instance-attributes
             offset_y //= 2
 
         self._set_window(mode, offset_x, offset_y, max_x, max_y, width, height)
+
+    @size.setter
+    def size(self, size):
         self._size = size
+        self._set_size_and_colorspace()
 
     def _set_flip(self):
         bits = 0
@@ -1267,15 +1298,19 @@ class OV2640(_SCCBCameraBase):  # pylint: disable=too-many-instance-attributes
             ((height >> 6) & 0x04) | ((width >> 8) & 0x03),
         ]
 
-        pclk_auto = 1
+        pclk_auto = 0
         pclk_div = 8
         clk_2x = 0
-        clk_div = 7
+        clk_div = 0
+
+        if self._colorspace != OV2640_COLOR_JPEG:
+            pclk_auto = 1
+            clk_div = 7
 
         if mode == _OV2640_MODE_CIF:
             regs = _ov2640_settings_to_cif
-            # if pixformat is not jpeg:
-            clk_div = 3
+            if self._colorspace != OV2640_COLOR_JPEG:
+                clk_div = 3
         elif mode == _OV2640_MODE_SVGA:
             regs = _ov2640_settings_to_svga
         else:
@@ -1294,7 +1329,7 @@ class OV2640(_SCCBCameraBase):  # pylint: disable=too-many-instance-attributes
         time.sleep(0.01)
 
         # Reestablish colorspace
-        self.colorspace = self._colorspace
+        self._set_colorspace()
 
         # Reestablish test pattern
         if self._test_pattern:

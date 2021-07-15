@@ -13,9 +13,6 @@ two chips.  If the visible portion of the display's flexible cable has a bunch
 of straight lines, it may be an ili9341.  If it has a bunch of wiggly traces,
 it may be an st7789.  If in doubt, try both demos.
 
-The camera included with the Kaluga development kit is the incompatible OV2640,
-it won't work.
-
 The audio board must be mounted between the Kaluga and the LCD, it provides the
 I2C pull-ups(!)
 """
