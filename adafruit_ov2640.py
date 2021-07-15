@@ -887,70 +887,70 @@ _ov2640_settings_to_uxga = bytes(
     ]
 )
 
-_ov2640_settings_jpeg3 = bytes(
-    [
-        _BANK_SEL,
-        _BANK_DSP,
-        _RESET,
-        _RESET_JPEG | _RESET_DVP,
-        _IMAGE_MODE,
-        _IMAGE_MODE_JPEG_EN | _IMAGE_MODE_HREF_VSYNC,
-        0xD7,
-        0x03,
-        0xE1,
-        0x77,
-        0xE5,
-        0x1F,
-        0xD9,
-        0x10,
-        0xDF,
-        0x80,
-        0x33,
-        0x80,
-        0x3C,
-        0x10,
-        0xEB,
-        0x30,
-        0xDD,
-        0x7F,
-        _RESET,
-        0x00,
-    ]
-)
-
-_ov2640_settings_yuv422 = bytes(
-    [
-        _BANK_SEL,
-        _BANK_DSP,
-        _RESET,
-        _RESET_DVP,
-        _IMAGE_MODE,
-        _IMAGE_MODE_YUV422,
-        0xD7,
-        0x01,
-        0xE1,
-        0x67,
-        _RESET,
-        0x00,
-    ]
-)
-
-_ov2640_settings_rgb565 = bytes(
-    [
-        _BANK_SEL,
-        _BANK_DSP,
-        _RESET,
-        _RESET_DVP,
-        _IMAGE_MODE,
-        _IMAGE_MODE_RGB565,
-        0xD7,
-        0x03,
-        0xE1,
-        0x77,
-        _RESET,
-        0x00,
-    ]
-)
+_ov2640_color_settings = {
+    OV2640_COLOR_JPEG: bytes(
+        [
+            _BANK_SEL,
+            _BANK_DSP,
+            _RESET,
+            _RESET_JPEG | _RESET_DVP,
+            _IMAGE_MODE,
+            _IMAGE_MODE_JPEG_EN | _IMAGE_MODE_HREF_VSYNC,
+            0xD7,
+            0x03,
+            0xE1,
+            0x77,
+            0xE5,
+            0x1F,
+            0xD9,
+            0x10,
+            0xDF,
+            0x80,
+            0x33,
+            0x80,
+            0x3C,
+            0x10,
+            0xEB,
+            0x30,
+            0xDD,
+            0x7F,
+            _RESET,
+            0x00,
+        ]
+    ),
+    OV2640_COLOR_YUV: bytes(
+        [
+            _BANK_SEL,
+            _BANK_DSP,
+            _RESET,
+            _RESET_DVP,
+            _IMAGE_MODE,
+            _IMAGE_MODE_YUV422,
+            0xD7,
+            0x01,
+            0xE1,
+            0x67,
+            _RESET,
+            0x00,
+        ]
+    ),
+    OV2640_COLOR_RGB: bytes(
+        [
+            _BANK_SEL,
+            _BANK_DSP,
+            _RESET,
+            _RESET_DVP,
+            _IMAGE_MODE,
+            _IMAGE_MODE_RGB565,
+            0xD7,
+            0x03,
+            0xE1,
+            0x77,
+            _RESET,
+            0x00,
+        ]
+    ),
+}
 
 
 class _RegBits:
@@ -1173,14 +1173,7 @@ class OV2640(_SCCBCameraBase):  # pylint: disable=too-many-instance-attributes
 
     def _set_colorspace(self):
         colorspace = self._colorspace
-        if colorspace == OV2640_COLOR_RGB:
-            settings = _ov2640_settings_rgb565
-        elif colorspace == OV2640_COLOR_YUV:
-            settings = _ov2640_settings_yuv422
-        elif colorspace == OV2640_COLOR_JPEG:
-            settings = _ov2640_settings_jpeg3
-        else:
-            raise ValueError(f"Invalid colorspace {repr(colorspace)}")
+        settings = _ov2640_color_settings[colorspace]
 
         self._write_list(settings)
         # written twice?
