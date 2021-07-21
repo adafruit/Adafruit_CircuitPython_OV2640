@@ -64,7 +64,7 @@ width = display.width
 height = display.height
 
 cam.size = adafruit_ov2640.OV2640_SIZE_QQVGA
-cam.test_pattern = True
+# cam.test_pattern = True
 bitmap = Bitmap(cam.width, cam.height, 65536)
 
 print(width, height, cam.width, cam.height)
