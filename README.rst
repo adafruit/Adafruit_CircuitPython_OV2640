@@ -23,6 +23,8 @@ Introduction
 
 CircuitPython driver for OV2640 Camera.
 
+This driver is designed to work directly with the OV2640 camera module through an 18-pin header.
+It does not work with products such as ArduCam which process the camera data themselves.
 
 Dependencies
 =============
