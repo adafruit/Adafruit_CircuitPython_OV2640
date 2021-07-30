@@ -51,8 +51,8 @@ Preview images on LCD, bypassing displayio for slightly higher framerate
 Image-saving tests
 ------------------
 
-Kaluga 1.3 with ili9341, internal flash
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Kaluga 1.3 with ili9341, internal flash, JPEG
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Preview images on LCD t hen save JPEG images to internal flash on Kaluga 1.3.  Requires the second snippet of
 code to be saved as ``boot.py``.
@@ -67,14 +67,24 @@ code to be saved as ``boot.py``.
     :caption: ov2640_jpeg_kaluga1_3_boot.py
     :linenos:
 
-Kaluga 1.3 with ili9341, external SD card
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Kaluga 1.3 with ili9341, external SD card, JPEG
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Preview images on LCD then save JPEG images to SD on Kaluga 1.3 fitted with an ili9341 display.
 
 .. literalinclude:: ../examples/ov2640_jpeg_sd_kaluga1_3.py
     :caption: ov2640_jpeg_sd_kaluga1_3.py
     :linenos:
+
+Kaluga 1.3 with ili9341, external SD card, BMP
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Preview images on LCD then save BMP images to SD on Kaluga 1.3 fitted with an ili9341 display.
+
+.. literalinclude:: ../examples/ov2640_bmp_sd_kaluga1_3.py
+    :caption: ov2640_bmp_sd_kaluga1_3.py
+    :linenos:
+
 
 Kaluga 1.3 with Adafruit IO
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
