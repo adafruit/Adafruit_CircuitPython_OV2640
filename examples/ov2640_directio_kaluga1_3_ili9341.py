@@ -27,7 +27,6 @@ Press the "Record" button on the audio daughterboard to take a photo.
 
 import os
 import struct
-import time
 
 import analogio
 import board

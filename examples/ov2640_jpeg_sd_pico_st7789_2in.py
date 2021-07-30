@@ -23,6 +23,7 @@ Press the "Record" button on the audio daughterboard to take a photo.
 """
 
 import time
+import os
 from displayio import (
     Bitmap,
     Group,
@@ -32,15 +33,13 @@ from displayio import (
     ColorConverter,
     Colorspace,
 )
-
 from adafruit_st7789 import ST7789
 import board
 import busio
 import digitalio
-import adafruit_ov2640
 import sdcardio
 import storage
-import os
+import adafruit_ov2640
 
 release_displays()
 # Set up the display (You must customize this block for your display!)
@@ -112,7 +111,7 @@ def exists(filename):
     try:
         os.stat(filename)
         return True
-    except OSError as e:
+    except OSError:
         return False
 
 
@@ -120,14 +119,14 @@ _image_counter = 0
 
 
 def open_next_image():
-    global _image_counter
+    global _image_counter  # pylint: disable=global-statement
     while True:
         filename = f"/sd/img{_image_counter:04d}.jpg"
         _image_counter += 1
         if exists(filename):
             continue
         print("#", filename)
-        return open(filename, "wb")
+        return open(filename, "wb")  # pylint: disable=consider-using-with
 
 
 def capture_image():

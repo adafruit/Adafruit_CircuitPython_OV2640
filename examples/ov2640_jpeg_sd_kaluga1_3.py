@@ -33,10 +33,10 @@ import analogio
 import board
 import busio
 import displayio
-import adafruit_ov2640
 import sdcardio
 import storage
 from adafruit_ili9341 import ILI9341
+import adafruit_ov2640
 
 V_MODE = 1.98
 V_RECORD = 2.41
