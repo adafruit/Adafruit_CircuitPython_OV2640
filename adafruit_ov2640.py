@@ -1334,3 +1334,22 @@ class OV2640(_SCCBCameraBase):  # pylint: disable=too-many-instance-attributes
         # Reestablish test pattern
         if self._test_pattern:
             self.test_pattern = self._test_pattern
+
+    @property
+    def exposure(self):
+        """The exposure level of the sensor"""
+        aec_9_2 = self._get_reg_bits(_BANK_SENSOR, _AEC, 0, 0xFF)
+        aec_15_10 = self._get_reg_bits(_BANK_SENSOR, _REG45, 0, 0b111111)
+        aec_1_0 = self._get_reg_bits(_BANK_SENSOR, _REG04, 0, 0b11)
+
+        return aec_1_0 | (aec_9_2 << 2) | (aec_15_10 << 10)
+
+    @exposure.setter
+    def exposure(self, exposure):
+        aec_1_0 = exposure & 0x11
+        aec_9_2 = (exposure >> 2) & 0b11111111
+        aec_15_10 = exposure >> 10
+
+        self._set_reg_bits(_BANK_SENSOR, _AEC, 0, 0xFF, aec_9_2)
+        self._set_reg_bits(_BANK_SENSOR, _REG45, 0, 0b111111, aec_15_10)
+        self._set_reg_bits(_BANK_SENSOR, _REG04, 0, 0b11, aec_1_0)
