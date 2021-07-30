@@ -127,7 +127,7 @@ def exists(filename):
     try:
         os.stat(filename)
         return True
-    except OSError as e:
+    except OSError:
         return False
 
 
@@ -135,14 +135,14 @@ _image_counter = 0
 
 
 def open_next_image(extension="jpg"):
-    global _image_counter
+    global _image_counter  # pylint: disable=global-statement
     while True:
         filename = f"/sd/img{_image_counter:04d}.{extension}"
         _image_counter += 1
         if exists(filename):
             continue
         print("#", filename)
-        return open(filename, "wb")
+        return open(filename, "wb")  # pylint: disable=consider-using-with
 
 
 ### These routines are for writing BMP files in the RGB565 or BGR565 formats.
@@ -197,11 +197,11 @@ def write_header(output_file, width, height, masks):
     put_dword(144179)  # 2.2 gamma blue
 
 
-def capture_image_bmp(bitmap):
+def capture_image_bmp(the_bitmap):
     with open_next_image("bmp") as f:
-        swapped = np.frombuffer(bitmap, dtype=np.uint16)
+        swapped = np.frombuffer(the_bitmap, dtype=np.uint16)
         swapped.byteswap(inplace=True)
-        write_header(f, bitmap.width, bitmap.height, _bitmask_rgb565)
+        write_header(f, the_bitmap.width, the_bitmap.height, _bitmask_rgb565)
         f.write(swapped)
 
 
@@ -209,7 +209,7 @@ display.auto_refresh = False
 old_record_pressed = True
 
 while True:
-    a_voltage = a.value * a.reference_voltage / 65535
+    a_voltage = a.value * a.reference_voltage / 65535  # pylint: disable=no-member
     cam.capture(bitmap)
     bitmap.dirty()
 

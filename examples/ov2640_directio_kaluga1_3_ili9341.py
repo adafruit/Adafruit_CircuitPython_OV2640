@@ -116,7 +116,7 @@ def exists(filename):
     try:
         os.stat(filename)
         return True
-    except OSError as e:
+    except OSError:
         return False
 
 
@@ -124,14 +124,14 @@ _image_counter = 0
 
 
 def open_next_image():
-    global _image_counter
+    global _image_counter  # pylint: disable=global-statement
     while True:
         filename = f"/sd/img{_image_counter:04d}.jpg"
         _image_counter += 1
         if exists(filename):
             continue
         print("#", filename)
-        return open(filename, "wb")
+        return open(filename, "wb")  # pylint: disable=consider-using-with
 
 
 def capture_image():
@@ -160,7 +160,7 @@ def main():
     display_bus.send(43, struct.pack(">hh", 0, 239))
     t0 = time.monotonic_ns()
     while True:
-        a_voltage = a.value * a.reference_voltage / 65535
+        a_voltage = a.value * a.reference_voltage / 65535  # pylint: disable=no-member
         record_pressed = abs(a_voltage - V_RECORD) < 0.05
         if record_pressed:
             capture_image()

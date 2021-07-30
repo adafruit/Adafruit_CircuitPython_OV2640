@@ -10,24 +10,28 @@ tested on v1.3.
 The audio board must be mounted between the Kaluga and the LCD, it provides the
 I2C pull-ups(!)
 
-This example requires that your WIFI and Adafruit IO credentials be configured in CIRCUITPY/secrets.py, and that you have created a feed called "image" with history disabled.
+This example requires that your WIFI and Adafruit IO credentials be configured
+in CIRCUITPY/secrets.py, and that you have created a feed called "image" with
+history disabled.
 
-The maximum image size is 100kB after base64 encoding, or about 65kB before base64 encoding.  In practice, "SVGA" (800x600) images are typically around 40kB even though the "capture_buffer_size" (theoretical maximum size) is (width*height/5) bytes or 96kB.
+The maximum image size is 100kB after base64 encoding, or about 65kB before
+base64 encoding.  In practice, "SVGA" (800x600) images are typically around
+40kB even though the "capture_buffer_size" (theoretical maximum size) is
+(width*height/5) bytes or 96kB.
 """
 
-import os
-import time
 import binascii
+import ssl
+import time
+from secrets import secrets  # pylint: disable=no-name-in-module
 
 import board
 import busio
 import wifi
 import socketpool
-import ssl
-import adafruit_ov2640
-from secrets import secrets
 import adafruit_minimqtt.adafruit_minimqtt as MQTT
 from adafruit_io.adafruit_io import IO_MQTT
+import adafruit_ov2640
 
 feed_name = "image"
 

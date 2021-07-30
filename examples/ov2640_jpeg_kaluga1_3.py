@@ -50,6 +50,7 @@ try:
 except OSError as e:
     print(e)
     print(
-        "A 'read-only filesystem' error occurs if you did not correctly install\nov2640_jpeg_kaluga1_3_boot.py as CIRCUITPY/boot.py and reset the board"
+        "A 'read-only filesystem' error occurs if you did not correctly install"
+        "\nov2640_jpeg_kaluga1_3_boot.py as CIRCUITPY/boot.py and reset the board"
     )
 print("Wrote to CIRCUITPY/jpeg.jpg")

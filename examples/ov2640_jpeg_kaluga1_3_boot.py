@@ -17,7 +17,7 @@ V_MODE = 1.98
 V_RECORD = 2.41
 
 a = analogio.AnalogIn(board.IO6)
-a_voltage = a.value * a.reference_voltage / 65535
+a_voltage = a.value * a.reference_voltage / 65535  # pylint: disable=no-member
 if abs(a_voltage - V_MODE) > 0.05:  # If mode is NOT pressed...
     print("storage writable by CircuitPython")
     storage.remount("/", readonly=False)
