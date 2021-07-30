@@ -35,7 +35,6 @@ import busio
 import displayio
 import sdcardio
 import storage
-from adafruit_ili9341 import ILI9341
 import adafruit_ov2640
 
 V_MODE = 1.98
@@ -158,7 +157,6 @@ def main():
     display.auto_refresh = False
     display_bus.send(42, struct.pack(">hh", 0, 319))
     display_bus.send(43, struct.pack(">hh", 0, 239))
-    t0 = time.monotonic_ns()
     while True:
         a_voltage = a.value * a.reference_voltage / 65535  # pylint: disable=no-member
         record_pressed = abs(a_voltage - V_RECORD) < 0.05
@@ -166,11 +164,6 @@ def main():
             capture_image()
         cam.capture(bitmap)
         display_bus.send(44, bitmap)
-        t1 = time.monotonic_ns()
-        print(1e9 / (t1 - t0), "fps")
-        t0 = t1
-        # bitmap.dirty()
-        # display.refresh(minimum_frames_per_second=0)
 
 
 main()

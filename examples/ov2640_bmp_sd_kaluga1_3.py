@@ -27,8 +27,6 @@ Press the "Record" button on the audio daughterboard to take a photo in BMP form
 
 import os
 import struct
-import time
-import binascii
 import ulab.numpy as np
 
 import analogio
@@ -37,8 +35,6 @@ import busio
 import displayio
 import sdcardio
 import storage
-import ssl
-from adafruit_ili9341 import ILI9341
 import adafruit_ov2640
 
 # Nominal voltages of several of the buttons on the audio daughterboard
