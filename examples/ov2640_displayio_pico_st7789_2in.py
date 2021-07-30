@@ -73,7 +73,7 @@ if bitmap is None:
 
 g = Group(scale=1, x=(width - cam.width) // 2, y=(height - cam.height) // 2)
 tg = TileGrid(
-    bitmap, pixel_shader=ColorConverter(input_colorspace=Colorspace.RGB565_SWAPPED)
+    bitmap, pixel_shader=ColorConverter(input_colorspace=Colorspace.BGR565_SWAPPED)
 )
 g.append(tg)
 display.show(g)

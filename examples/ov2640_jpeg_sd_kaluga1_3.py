@@ -76,7 +76,7 @@ bitmap = displayio.Bitmap(320, 240, 65536)
 tg = displayio.TileGrid(
     bitmap,
     pixel_shader=displayio.ColorConverter(
-        input_colorspace=displayio.Colorspace.RGB565_SWAPPED
+        input_colorspace=displayio.Colorspace.BGR565_SWAPPED
     ),
 )
 g.append(tg)
