@@ -69,6 +69,11 @@ Using the ESP32-S2 Kaluga Dev Kit and its included camera, capture a 160x120 ima
     cam.capture(buf)
 
 
+Documentation
+=============
+
+API documentation for this library can be found on `Read the Docs <https://circuitpython.readthedocs.io/projects/ov2640/en/latest/>`_.
+
 Contributing
 ============
 
