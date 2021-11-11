@@ -1206,8 +1206,7 @@ class OV2640(_SCCBCameraBase):  # pylint: disable=too-many-instance-attributes
             max_y //= 4
             offset_x //= 4
             offset_y //= 4
-            if max_y > 296:
-                max_y = 296
+            max_y = min(max_y, 296)
 
         elif size <= OV2640_SIZE_SVGA:
             mode = _OV2640_MODE_SVGA
