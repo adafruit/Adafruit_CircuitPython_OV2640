@@ -23,7 +23,6 @@ from secrets import secrets  # pylint: disable=no-name-in-module
 
 import board
 import busio
-import digitalio
 import wifi
 import socketpool
 import adafruit_minimqtt.adafruit_minimqtt as MQTT
