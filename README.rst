@@ -3,7 +3,7 @@ Introduction
 
 
 .. image:: https://readthedocs.org/projects/adafruit-circuitpython-ov2640/badge/?version=latest
-    :target: https://circuitpython.readthedocs.io/projects/ov2640/en/latest/
+    :target: https://docs.circuitpython.org/projects/ov2640/en/latest/
     :alt: Documentation Status
 
 
@@ -72,7 +72,7 @@ Using the ESP32-S2 Kaluga Dev Kit and its included camera, capture a 160x120 ima
 Documentation
 =============
 
-API documentation for this library can be found on `Read the Docs <https://circuitpython.readthedocs.io/projects/ov2640/en/latest/>`_.
+API documentation for this library can be found on `Read the Docs <https://docs.circuitpython.org/projects/ov2640/en/latest/>`_.
 
 Contributing
 ============
