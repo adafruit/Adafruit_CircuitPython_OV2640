@@ -192,7 +192,11 @@ _REG04_HFLIP_IMG = const(0x80)
 _REG04_VFLIP_IMG = const(0x40)
 _REG04_VREF_EN = const(0x10)
 _REG04_HREF_EN = const(0x08)
-_REG04_SET = lambda x: (_REG04_DEFAULT | x)
+
+
+def _REG04_SET(x):
+    return _REG04_DEFAULT | x
+
 
 _COM2_STDBY = const(0x10)
 _COM2_OUT_DRIVE_1x = const(0x00)
@@ -204,7 +208,11 @@ _COM3_DEFAULT = const(0x38)
 _COM3_BAND_50Hz = const(0x04)
 _COM3_BAND_60Hz = const(0x00)
 _COM3_BAND_AUTO = const(0x02)
-_COM3_BAND_SET = lambda x: (_COM3_DEFAULT | x)
+
+
+def _COM3_BAND_SET(x):
+    return _COM3_DEFAULT | x
+
 
 _COM7_SRST = const(0x80)
 _COM7_RES_UXGA = const(0x00)  # UXGA
@@ -217,7 +225,11 @@ _COM8_DEFAULT = const(0xC0)
 _COM8_BNDF_EN = const(0x20)  # Enable Banding filter
 _COM8_AGC_EN = const(0x04)  # AGC Auto/Manual control selection
 _COM8_AEC_EN = const(0x01)  # Auto/Manual Exposure control
-_COM8_SET = lambda x: (_COM8_DEFAULT | x)
+
+
+def _COM8_SET(x):
+    return _COM8_DEFAULT | x
+
 
 _COM9_DEFAULT = const(0x08)
 _COM9_AGC_GAIN_2x = const(0x00)  # AGC:    2x
@@ -227,7 +239,11 @@ _COM9_AGC_GAIN_16x = const(0x03)  # AGC:   16x
 _COM9_AGC_GAIN_32x = const(0x04)  # AGC:   32x
 _COM9_AGC_GAIN_64x = const(0x05)  # AGC:   64x
 _COM9_AGC_GAIN_128x = const(0x06)  # AGC:  128x
-_COM9_AGC_SET = lambda x: (_COM9_DEFAULT | (x << 5))
+
+
+def _COM9_AGC_SET(x):
+    return _COM9_DEFAULT | (x << 5)
+
 
 _COM10_HREF_EN = const(0x80)  # HSYNC changes to HREF
 _COM10_HSYNC_EN = const(0x40)  # HREF changes to HSYNC
@@ -239,7 +255,10 @@ _COM10_HSYNC_NEG = const(0x01)  # HSYNC negative
 
 _CTRL1_AWB = const(0x08)  # Enable AWB
 
-_VV_AGC_TH_SET = lambda h, l: ((h << 4) | (l & 0x0F))
+
+def _VV_AGC_TH_SET(h, l):
+    return (h << 4) | (l & 0x0F)
+
 
 _REG32_UXGA = const(0x36)
 _REG32_SVGA = const(0x09)
