@@ -26,7 +26,7 @@ Implementation Notes
 * Adafruit's Bus Device library: https:# github.com/adafruit/Adafruit_CircuitPython_BusDevice
 """
 
-# pylint: disable=too-many-lines
+# pylint: disable=too-many-lines,unnecessary-lambda-assignment
 # imports
 
 __version__ = "0.0.0+auto.0"
