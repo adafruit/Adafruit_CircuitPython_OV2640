@@ -109,7 +109,7 @@ tg = displayio.TileGrid(
     ),
 )
 g.append(tg)
-display.show(g)
+display.root_group = g
 
 
 sd_spi = busio.SPI(clock=board.IO18, MOSI=board.IO14, MISO=board.IO17)

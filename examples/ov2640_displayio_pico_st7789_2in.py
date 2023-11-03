@@ -76,7 +76,7 @@ tg = TileGrid(
     bitmap, pixel_shader=ColorConverter(input_colorspace=Colorspace.BGR565_SWAPPED)
 )
 g.append(tg)
-display.show(g)
+display.root_group = g
 
 display.auto_refresh = False
 while True:
