@@ -62,7 +62,7 @@ tg = displayio.TileGrid(
     ),
 )
 g.append(tg)
-display.show(g)
+display.root_group = g
 
 display.auto_refresh = False
 while True:
