@@ -12,11 +12,18 @@ from displayio import (
     Bitmap,
     Group,
     TileGrid,
-    FourWire,
     release_displays,
     ColorConverter,
     Colorspace,
 )
+
+# Compatibility with both CircuitPython 8.x.x and 9.x.x.
+# Remove after 8.x.x is no longer a supported release.
+try:
+    from fourwire import FourWire
+except ImportError:
+    # pylint: disable=ungrouped-imports
+    from displayio import FourWire
 
 from adafruit_st7789 import ST7789
 import board
