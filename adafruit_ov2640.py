@@ -991,9 +991,9 @@ class _SCCBCameraBase:  # pylint: disable=too-few-public-methods
     def _get_reg_bits(self, bank: int, reg: int, shift: int, mask: int) -> int:
         return (self._read_bank_register(bank, reg) >> shift) & mask
 
-    def _set_reg_bits(
+    def _set_reg_bits(  # pylint: disable=too-many-arguments
         self, bank: int, reg: int, shift: int, mask: int, value: int
-    ) -> None:  #  pylint: disable=too-many-arguments
+    ) -> None:
         reg_value = self._read_bank_register(bank, reg)
         reg_value &= ~(mask << shift)
         reg_value |= value << shift
@@ -1268,7 +1268,7 @@ class OV2640(_SCCBCameraBase):  # pylint: disable=too-many-instance-attributes
         """Get the version (VER) register.  The expected value is 0x41."""
         return self._read_bank_register(_BANK_SENSOR, _REG_VER)
 
-    def _set_window(
+    def _set_window(  # pylint: disable=too-many-arguments, too-many-locals
         self,
         mode: int,
         offset_x: int,
@@ -1277,7 +1277,7 @@ class OV2640(_SCCBCameraBase):  # pylint: disable=too-many-instance-attributes
         max_y: int,
         width: int,
         height: int,
-    ) -> None:  # pylint: disable=too-many-arguments, too-many-locals
+    ) -> None:
         self._w = width
         self._h = height
 
