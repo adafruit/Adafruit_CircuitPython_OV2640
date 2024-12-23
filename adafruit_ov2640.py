@@ -41,6 +41,14 @@ from adafruit_bus_device.i2c_device import I2CDevice
 
 from micropython import const
 
+try:
+    from typing import Optional, Union, Type, List
+    from busio import I2C
+    from microcontroller import Pin
+    from circuitpython_typing import WriteableBuffer
+except ImportError:
+    pass
+
 CTRLI = const(0x50)
 _R_BYPASS = const(0x05)
 _QS = const(0x44)
@@ -954,17 +962,17 @@ _ov2640_color_settings = {
 
 
 class _RegBits:
-    def __init__(self, bank, reg, shift, mask):
+    def __init__(self, bank: int, reg: int, shift: int, mask: int) -> None:
         self.bank = bank
         self.reg = reg
         self.shift = shift
         self.mask = mask
 
-    def __get__(self, obj, objtype=None):
+    def __get__(self, obj: "_SCCBCameraBase", objtype: Optional[Type] = None) -> int:
         reg_value = obj._read_bank_register(self.bank, self.reg)
         return (reg_value >> self.shift) & self.mask
 
-    def __set__(self, obj, value):
+    def __set__(self, obj: "_SCCBCameraBase", value: Union[bool, int]) -> None:
         if value & ~self.mask:
             raise ValueError(
                 f"Value 0x{value:02x} does not fit in mask 0x{self.mask:02x}"
@@ -976,38 +984,38 @@ class _RegBits:
 
 
 class _SCCBCameraBase:  # pylint: disable=too-few-public-methods
-    def __init__(self, i2c_bus, i2c_address):
+    def __init__(self, i2c_bus: I2C, i2c_address: int) -> None:
         self._i2c_device = I2CDevice(i2c_bus, i2c_address)
         self._bank = None
 
-    def _get_reg_bits(self, bank, reg, shift, mask):
+    def _get_reg_bits(self, bank: int, reg: int, shift: int, mask: int) -> int:
         return (self._read_bank_register(bank, reg) >> shift) & mask
 
-    def _set_reg_bits(
-        self, bank, reg, shift, mask, value
-    ):  #  pylint: disable=too-many-arguments
+    def _set_reg_bits(  # pylint: disable=too-many-arguments
+        self, bank: int, reg: int, shift: int, mask: int, value: int
+    ) -> None:
         reg_value = self._read_bank_register(bank, reg)
         reg_value &= ~(mask << shift)
         reg_value |= value << shift
         self._write_register(reg, reg_value)
 
-    def _write_list(self, reg_list):
+    def _write_list(self, reg_list: List[int]) -> None:
         for i in range(0, len(reg_list), 2):
             self._write_register(reg_list[i], reg_list[i + 1])
             time.sleep(0.001)
 
-    def _write_bank_register(self, bank, reg, value):
+    def _write_bank_register(self, bank: int, reg: int, value: int) -> None:
         if self._bank != bank:
             self._write_register(_BANK_SEL, bank)
         self._write_register(reg, value)
 
-    def _read_bank_register(self, bank, reg):
+    def _read_bank_register(self, bank: int, reg: int) -> int:
         if self._bank != bank:
             self._write_register(_BANK_SEL, bank)
         result = self._read_register(reg)
         return result
 
-    def _write_register(self, reg, value):
+    def _write_register(self, reg: int, value: int) -> None:
         if reg == _BANK_SEL:
             if self._bank == value:
                 return
@@ -1019,7 +1027,7 @@ class _SCCBCameraBase:  # pylint: disable=too-few-public-methods
         with self._i2c_device as i2c:
             i2c.write(b)
 
-    def _read_register(self, reg):
+    def _read_register(self, reg: int) -> int:
         b = bytearray(1)
         b[0] = reg
         with self._i2c_device as i2c:
@@ -1039,17 +1047,17 @@ class OV2640(_SCCBCameraBase):  # pylint: disable=too-many-instance-attributes
 
     def __init__(
         self,
-        i2c_bus,
-        data_pins,
-        clock,
-        vsync,
-        href,
-        shutdown=None,
-        reset=None,
-        mclk=None,
-        mclk_frequency=20_000_000,
-        i2c_address=0x30,
-        size=OV2640_SIZE_QQVGA,
+        i2c_bus: I2C,
+        data_pins: Pin,
+        clock: Pin,
+        vsync: Pin,
+        href: Pin,
+        shutdown: Optional[Pin] = None,
+        reset: Optional[Pin] = None,
+        mclk: Optional[Pin] = None,
+        mclk_frequency: int = 20_000_000,
+        i2c_address: int = 0x30,
+        size: int = OV2640_SIZE_QQVGA,
     ):  # pylint: disable=too-many-arguments
         """
         Args:
@@ -1122,11 +1130,11 @@ class OV2640(_SCCBCameraBase):  # pylint: disable=too-many-instance-attributes
             data_pins=data_pins, clock=clock, vsync=vsync, href=href
         )
 
-    def capture(self, buf):
+    def capture(self, buf: WriteableBuffer) -> Optional[memoryview]:
         """Capture an image into the buffer.
 
         Args:
-            buf (Union[bytearray, memoryview]): A WritableBuffer to contain the \
+            buf (WriteableBuffer): A WritableBuffer to contain the \
                 captured image.  Note that this can be a ulab array or a displayio Bitmap.
         """
         self._imagecapture.capture(buf)
@@ -1138,40 +1146,40 @@ class OV2640(_SCCBCameraBase):  # pylint: disable=too-many-instance-attributes
         return None
 
     @property
-    def capture_buffer_size(self):
+    def capture_buffer_size(self) -> int:
         """Return the size of capture buffer to use with current resolution & colorspace settings"""
         if self.colorspace == OV2640_COLOR_JPEG:
             return self.width * self.height // 5
         return self.width * self.height * 2
 
     @property
-    def mclk_frequency(self):
+    def mclk_frequency(self) -> Optional[int]:
         """Get the actual frequency the generated mclk, or None"""
         return self._mclk_pwm.frequency if self._mclk_pwm else None
 
     @property
-    def width(self):
+    def width(self) -> int:
         """Get the image width in pixels.  A buffer of 2*width*height bytes \
         stores a whole image."""
         return self._w
 
     @property
-    def height(self):
+    def height(self) -> int:
         """Get the image height in pixels.  A buffer of 2*width*height bytes \
         stores a whole image."""
         return self._h
 
     @property
-    def colorspace(self):
+    def colorspace(self) -> bytes:
         """Get or set the colorspace, one of the ``OV2640_COLOR_`` constants."""
         return self._colorspace
 
     @colorspace.setter
-    def colorspace(self, colorspace):
+    def colorspace(self, colorspace: bytes) -> None:
         self._colorspace = colorspace
         self._set_size_and_colorspace()
 
-    def _set_colorspace(self):
+    def _set_colorspace(self) -> None:
         colorspace = self._colorspace
         settings = _ov2640_color_settings[colorspace]
 
@@ -1180,7 +1188,7 @@ class OV2640(_SCCBCameraBase):  # pylint: disable=too-many-instance-attributes
         self._write_list(settings)
         time.sleep(0.01)
 
-    def deinit(self):
+    def deinit(self) -> None:
         """Deinitialize the camera"""
         self._imagecapture.deinit()
         if self._mclk_pwm:
@@ -1191,11 +1199,11 @@ class OV2640(_SCCBCameraBase):  # pylint: disable=too-many-instance-attributes
             self._reset.deinit()
 
     @property
-    def size(self):
+    def size(self) -> int:
         """Get or set the captured image size, one of the ``OV2640_SIZE_`` constants."""
         return self._size
 
-    def _set_size_and_colorspace(self):
+    def _set_size_and_colorspace(self) -> None:
         size = self._size
         width, height, ratio = _resolution_info[size]
         offset_x, offset_y, max_x, max_y = _ratio_table[ratio]
@@ -1218,11 +1226,11 @@ class OV2640(_SCCBCameraBase):  # pylint: disable=too-many-instance-attributes
         self._set_window(mode, offset_x, offset_y, max_x, max_y, width, height)
 
     @size.setter
-    def size(self, size):
+    def size(self, size: int) -> None:
         self._size = size
         self._set_size_and_colorspace()
 
-    def _set_flip(self):
+    def _set_flip(self) -> None:
         bits = 0
         if self._flip_x:
             bits |= _REG04_HFLIP_IMG
@@ -1231,38 +1239,45 @@ class OV2640(_SCCBCameraBase):  # pylint: disable=too-many-instance-attributes
         self._write_bank_register(_BANK_SENSOR, _REG04, _REG04_SET(bits))
 
     @property
-    def flip_x(self):
+    def flip_x(self) -> bool:
         """Get or set the X-flip flag"""
         return self._flip_x
 
     @flip_x.setter
-    def flip_x(self, value):
+    def flip_x(self, value: bool) -> None:
         self._flip_x = bool(value)
         self._set_flip()
 
     @property
-    def flip_y(self):
+    def flip_y(self) -> bool:
         """Get or set the Y-flip flag"""
         return self._flip_y
 
     @flip_y.setter
-    def flip_y(self, value):
+    def flip_y(self, value: bool) -> None:
         self._flip_y = bool(value)
         self._set_flip()
 
     @property
-    def product_id(self):
+    def product_id(self) -> int:
         """Get the product id (PID) register.  The expected value is 0x26."""
         return self._read_bank_register(_BANK_SENSOR, _REG_PID)
 
     @property
-    def product_version(self):
-        """Get the version (VER) register.  The expected value is 0x4x."""
+    def product_version(self) -> int:
+        """Get the version (VER) register.  The expected value is 0x41."""
         return self._read_bank_register(_BANK_SENSOR, _REG_VER)
 
-    def _set_window(
-        self, mode, offset_x, offset_y, max_x, max_y, width, height
-    ):  # pylint: disable=too-many-arguments, too-many-locals
+    def _set_window(  # pylint: disable=too-many-arguments, too-many-locals
+        self,
+        mode: int,
+        offset_x: int,
+        offset_y: int,
+        max_x: int,
+        max_y: int,
+        width: int,
+        height: int,
+    ) -> None:
         self._w = width
         self._h = height
 
@@ -1335,7 +1350,7 @@ class OV2640(_SCCBCameraBase):  # pylint: disable=too-many-instance-attributes
             self.test_pattern = self._test_pattern
 
     @property
-    def exposure(self):
+    def exposure(self) -> int:
         """The exposure level of the sensor"""
         aec_9_2 = self._get_reg_bits(_BANK_SENSOR, _AEC, 0, 0xFF)
         aec_15_10 = self._get_reg_bits(_BANK_SENSOR, _REG45, 0, 0b111111)
@@ -1344,7 +1359,7 @@ class OV2640(_SCCBCameraBase):  # pylint: disable=too-many-instance-attributes
         return aec_1_0 | (aec_9_2 << 2) | (aec_15_10 << 10)
 
     @exposure.setter
-    def exposure(self, exposure):
+    def exposure(self, exposure: int) -> None:
         aec_1_0 = exposure & 0x11
         aec_9_2 = (exposure >> 2) & 0b11111111
         aec_15_10 = exposure >> 10
