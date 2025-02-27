@@ -89,7 +89,7 @@ Preview images on LCD then save BMP images to SD on Kaluga 1.3 fitted with an il
 Kaluga 1.3 with Adafruit IO
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Upload JPEG images to Adafruit IO.  Requires that WIFI and Adafruit IO be configured in ``secrets.py``.
+Upload JPEG images to Adafruit IO. Requires that WIFI and Adafruit IO be configured in ``settings.toml``.
 
 .. literalinclude:: ../examples/ov2640_aio_kaluga1_3.py
     :caption: ov2640_aio_kaluga1_3.py
