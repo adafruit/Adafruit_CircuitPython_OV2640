@@ -26,7 +26,6 @@ Implementation Notes
 * Adafruit's Bus Device library: https:# github.com/adafruit/Adafruit_CircuitPython_BusDevice
 """
 
-# pylint: disable=too-many-lines,unnecessary-lambda-assignment
 # imports
 
 __version__ = "0.0.0+auto.0"
@@ -38,14 +37,14 @@ import digitalio
 import imagecapture
 import pwmio
 from adafruit_bus_device.i2c_device import I2CDevice
-
 from micropython import const
 
 try:
-    from typing import Optional, Union, Type, List
+    from typing import List, Optional, Type, Union
+
     from busio import I2C
-    from microcontroller import Pin
     from circuitpython_typing import WriteableBuffer
+    from microcontroller import Pin
 except ImportError:
     pass
 
@@ -974,16 +973,14 @@ class _RegBits:
 
     def __set__(self, obj: "_SCCBCameraBase", value: Union[bool, int]) -> None:
         if value & ~self.mask:
-            raise ValueError(
-                f"Value 0x{value:02x} does not fit in mask 0x{self.mask:02x}"
-            )
+            raise ValueError(f"Value 0x{value:02x} does not fit in mask 0x{self.mask:02x}")
         reg_value = obj._read_bank_register(self.bank, self.reg)
         reg_value &= ~(self.mask << self.shift)
         reg_value |= value << self.shift
         obj._write_register(self.reg, reg_value)
 
 
-class _SCCBCameraBase:  # pylint: disable=too-few-public-methods
+class _SCCBCameraBase:
     def __init__(self, i2c_bus: I2C, i2c_address: int) -> None:
         self._i2c_device = I2CDevice(i2c_bus, i2c_address)
         self._bank = None
@@ -991,9 +988,7 @@ class _SCCBCameraBase:  # pylint: disable=too-few-public-methods
     def _get_reg_bits(self, bank: int, reg: int, shift: int, mask: int) -> int:
         return (self._read_bank_register(bank, reg) >> shift) & mask
 
-    def _set_reg_bits(  # pylint: disable=too-many-arguments
-        self, bank: int, reg: int, shift: int, mask: int, value: int
-    ) -> None:
+    def _set_reg_bits(self, bank: int, reg: int, shift: int, mask: int, value: int) -> None:
         reg_value = self._read_bank_register(bank, reg)
         reg_value &= ~(mask << shift)
         reg_value |= value << shift
@@ -1036,7 +1031,7 @@ class _SCCBCameraBase:  # pylint: disable=too-few-public-methods
         return b[0]
 
 
-class OV2640(_SCCBCameraBase):  # pylint: disable=too-many-instance-attributes
+class OV2640(_SCCBCameraBase):
     """Library for the OV2640 digital camera"""
 
     test_pattern = _RegBits(_BANK_SENSOR, _COM7, 1, 1)
@@ -1058,7 +1053,7 @@ class OV2640(_SCCBCameraBase):  # pylint: disable=too-many-instance-attributes
         mclk_frequency: int = 20_000_000,
         i2c_address: int = 0x30,
         size: int = OV2640_SIZE_QQVGA,
-    ):  # pylint: disable=too-many-arguments
+    ):
         """
         Args:
             i2c_bus (busio.I2C): The I2C bus used to configure the OV2640
@@ -1268,7 +1263,7 @@ class OV2640(_SCCBCameraBase):  # pylint: disable=too-many-instance-attributes
         """Get the version (VER) register.  The expected value is 0x41."""
         return self._read_bank_register(_BANK_SENSOR, _REG_VER)
 
-    def _set_window(  # pylint: disable=too-many-arguments, too-many-locals
+    def _set_window(
         self,
         mode: int,
         offset_x: int,

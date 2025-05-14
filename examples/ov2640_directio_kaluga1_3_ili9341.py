@@ -34,6 +34,7 @@ import busio
 import displayio
 import sdcardio
 import storage
+
 import adafruit_ov2640
 
 V_MODE = 1.98
@@ -54,13 +55,13 @@ display_bus = displayio.FourWire(
 )
 _INIT_SEQUENCE = (
     b"\x01\x80\x80"  # Software reset then delay 0x80 (128ms)
-    b"\xEF\x03\x03\x80\x02"
-    b"\xCF\x03\x00\xC1\x30"
-    b"\xED\x04\x64\x03\x12\x81"
-    b"\xE8\x03\x85\x00\x78"
-    b"\xCB\x05\x39\x2C\x00\x34\x02"
-    b"\xF7\x01\x20"
-    b"\xEA\x02\x00\x00"
+    b"\xef\x03\x03\x80\x02"
+    b"\xcf\x03\x00\xc1\x30"
+    b"\xed\x04\x64\x03\x12\x81"
+    b"\xe8\x03\x85\x00\x78"
+    b"\xcb\x05\x39\x2c\x00\x34\x02"
+    b"\xf7\x01\x20"
+    b"\xea\x02\x00\x00"
     b"\xc0\x01\x23"  # Power control VRH[5:0]
     b"\xc1\x01\x10"  # Power control SAP[2:0];BT[3:0]
     b"\xc5\x02\x3e\x28"  # VCM control
@@ -70,10 +71,10 @@ _INIT_SEQUENCE = (
     b"\x3a\x01\x55"  # COLMOD: Pixel Format Set
     b"\xb1\x02\x00\x18"  # Frame Rate Control (In Normal Mode/Full Colors)
     b"\xb6\x03\x08\x82\x27"  # Display Function Control
-    b"\xF2\x01\x00"  # 3Gamma Function Disable
+    b"\xf2\x01\x00"  # 3Gamma Function Disable
     b"\x26\x01\x01"  # Gamma curve selected
-    b"\xe0\x0f\x0F\x31\x2B\x0C\x0E\x08\x4E\xF1\x37\x07\x10\x03\x0E\x09\x00"  # Set Gamma
-    b"\xe1\x0f\x00\x0E\x14\x03\x11\x07\x31\xC1\x48\x08\x0F\x0C\x31\x36\x0F"  # Set Gamma
+    b"\xe0\x0f\x0f\x31\x2b\x0c\x0e\x08\x4e\xf1\x37\x07\x10\x03\x0e\x09\x00"  # Set Gamma
+    b"\xe1\x0f\x00\x0e\x14\x03\x11\x07\x31\xc1\x48\x08\x0f\x0c\x31\x36\x0f"  # Set Gamma
     b"\x11\x80\x78"  # Exit Sleep then delay 0x78 (120ms)
     b"\x29\x80\x78"  # Display on then delay 0x78 (120ms)
 )
@@ -122,14 +123,14 @@ _image_counter = 0
 
 
 def open_next_image():
-    global _image_counter  # pylint: disable=global-statement
+    global _image_counter  # noqa: PLW0603
     while True:
         filename = f"/sd/img{_image_counter:04d}.jpg"
         _image_counter += 1
         if exists(filename):
             continue
         print("#", filename)
-        return open(filename, "wb")  # pylint: disable=consider-using-with
+        return open(filename, "wb")
 
 
 def capture_image():
@@ -157,7 +158,7 @@ def main():
     display_bus.send(42, struct.pack(">hh", 0, 319))
     display_bus.send(43, struct.pack(">hh", 0, 239))
     while True:
-        a_voltage = a.value * a.reference_voltage / 65535  # pylint: disable=no-member
+        a_voltage = a.value * a.reference_voltage / 65535
         record_pressed = abs(a_voltage - V_RECORD) < 0.05
         if record_pressed:
             capture_image()

@@ -23,8 +23,8 @@ the test pattern!
 import sys
 import time
 
-import busio
 import board
+import busio
 
 import adafruit_ov2640
 

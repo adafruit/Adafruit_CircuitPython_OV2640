@@ -36,6 +36,7 @@ import displayio
 import sdcardio
 import storage
 from adafruit_ili9341 import ILI9341
+
 import adafruit_ov2640
 
 V_MODE = 1.98
@@ -75,9 +76,7 @@ g = displayio.Group(scale=1)
 bitmap = displayio.Bitmap(320, 240, 65536)
 tg = displayio.TileGrid(
     bitmap,
-    pixel_shader=displayio.ColorConverter(
-        input_colorspace=displayio.Colorspace.BGR565_SWAPPED
-    ),
+    pixel_shader=displayio.ColorConverter(input_colorspace=displayio.Colorspace.BGR565_SWAPPED),
 )
 g.append(tg)
 display.root_group = g
@@ -103,14 +102,14 @@ _image_counter = 0
 
 
 def open_next_image():
-    global _image_counter  # pylint: disable=global-statement
+    global _image_counter  # noqa: PLW0603
     while True:
         filename = f"/sd/img{_image_counter:04d}.jpg"
         _image_counter += 1
         if exists(filename):
             continue
         print("#", filename)
-        return open(filename, "wb")  # pylint: disable=consider-using-with
+        return open(filename, "wb")
 
 
 def capture_image():
@@ -133,7 +132,7 @@ def capture_image():
 
 display.auto_refresh = False
 while True:
-    a_voltage = a.value * a.reference_voltage / 65535  # pylint: disable=no-member
+    a_voltage = a.value * a.reference_voltage / 65535
     record_pressed = abs(a_voltage - V_RECORD) < 0.05
     if record_pressed:
         capture_image()

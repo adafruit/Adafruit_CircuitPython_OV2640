@@ -20,10 +20,10 @@ import board
 import busio
 import displayio
 from adafruit_ili9341 import ILI9341
+
 import adafruit_ov2640
 
 # Pylint is unable to see that the "size" property of OV2640_GrandCentral exists
-# pylint: disable=attribute-defined-outside-init
 
 # Release any resources currently in use for the displays
 displayio.release_displays()
@@ -57,9 +57,7 @@ g = displayio.Group(scale=1)
 bitmap = displayio.Bitmap(320, 240, 65536)
 tg = displayio.TileGrid(
     bitmap,
-    pixel_shader=displayio.ColorConverter(
-        input_colorspace=displayio.Colorspace.BGR565_SWAPPED
-    ),
+    pixel_shader=displayio.ColorConverter(input_colorspace=displayio.Colorspace.BGR565_SWAPPED),
 )
 g.append(tg)
 display.root_group = g
