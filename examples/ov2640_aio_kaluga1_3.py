@@ -24,12 +24,13 @@ import binascii
 import time
 from os import getenv
 
+import adafruit_connection_manager
+import adafruit_minimqtt.adafruit_minimqtt as MQTT
 import board
 import busio
 import wifi
-import adafruit_connection_manager
-import adafruit_minimqtt.adafruit_minimqtt as MQTT
 from adafruit_io.adafruit_io import IO_MQTT
+
 import adafruit_ov2640
 
 feed_name = "image"

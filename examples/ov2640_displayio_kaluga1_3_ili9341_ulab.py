@@ -22,12 +22,12 @@ I2C pull-ups(!)
 import board
 import busio
 import displayio
-from adafruit_ili9341 import ILI9341
 import ulab.numpy as np
+from adafruit_ili9341 import ILI9341
+
 import adafruit_ov2640
 
 # Pylint is unable to see that the "size" property of OV2640_GrandCentral exists
-# pylint: disable=attribute-defined-outside-init
 
 # Release any resources currently in use for the displays
 displayio.release_displays()
@@ -62,9 +62,7 @@ bitmap = displayio.Bitmap(320, 240, 65536)
 arr = np.frombuffer(bitmap, dtype=np.uint16)
 tg = displayio.TileGrid(
     bitmap,
-    pixel_shader=displayio.ColorConverter(
-        input_colorspace=displayio.Colorspace.RGB565_SWAPPED
-    ),
+    pixel_shader=displayio.ColorConverter(input_colorspace=displayio.Colorspace.RGB565_SWAPPED),
 )
 g.append(tg)
 display.root_group = g

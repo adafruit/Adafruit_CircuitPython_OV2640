@@ -19,8 +19,8 @@ powering on or resetting the board.
 
 import board
 import busio
-import adafruit_ov2640
 
+import adafruit_ov2640
 
 bus = busio.I2C(scl=board.CAMERA_SIOC, sda=board.CAMERA_SIOD)
 cam = adafruit_ov2640.OV2640(
