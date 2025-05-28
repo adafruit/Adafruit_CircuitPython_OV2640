@@ -20,6 +20,7 @@ I2C pull-ups(!)
 import board
 import busio
 import displayio
+import fourwire
 from adafruit_st7789 import ST7789
 
 import adafruit_ov2640
@@ -30,7 +31,7 @@ import adafruit_ov2640
 displayio.release_displays()
 
 spi = busio.SPI(MOSI=board.LCD_MOSI, clock=board.LCD_CLK)
-display_bus = displayio.FourWire(
+display_bus = fourwire.FourWire(
     spi, command=board.LCD_D_C, chip_select=board.LCD_CS, reset=board.LCD_RST
 )
 display = ST7789(display_bus, width=320, height=240, rotation=90, reverse_bytes_in_word=True)

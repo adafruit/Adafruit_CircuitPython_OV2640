@@ -30,8 +30,10 @@ import struct
 
 import analogio
 import board
+import busdisplay
 import busio
 import displayio
+import fourwire
 import sdcardio
 import storage
 
@@ -46,7 +48,7 @@ a = analogio.AnalogIn(board.IO6)
 displayio.release_displays()
 
 spi = busio.SPI(MOSI=board.LCD_MOSI, clock=board.LCD_CLK)
-display_bus = displayio.FourWire(
+display_bus = fourwire.FourWire(
     spi,
     command=board.LCD_D_C,
     chip_select=board.LCD_CS,
@@ -79,7 +81,7 @@ _INIT_SEQUENCE = (
     b"\x29\x80\x78"  # Display on then delay 0x78 (120ms)
 )
 
-display = displayio.Display(display_bus, _INIT_SEQUENCE, width=320, height=240)
+display = busdisplay.BusDisplay(display_bus, _INIT_SEQUENCE, width=320, height=240)
 
 bus = busio.I2C(scl=board.CAMERA_SIOC, sda=board.CAMERA_SIOD)
 cam = adafruit_ov2640.OV2640(

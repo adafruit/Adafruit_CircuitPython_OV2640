@@ -22,6 +22,7 @@ I2C pull-ups(!)
 import board
 import busio
 import displayio
+import fourwire
 import ulab.numpy as np
 from adafruit_ili9341 import ILI9341
 
@@ -33,7 +34,7 @@ import adafruit_ov2640
 displayio.release_displays()
 
 spi = busio.SPI(MOSI=board.LCD_MOSI, clock=board.LCD_CLK)
-display_bus = displayio.FourWire(
+display_bus = fourwire.FourWire(
     spi, command=board.LCD_D_C, chip_select=board.LCD_CS, reset=board.LCD_RST
 )
 display = ILI9341(display_bus, width=320, height=240, rotation=90)
